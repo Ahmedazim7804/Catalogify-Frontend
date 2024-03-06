@@ -1,7 +1,3 @@
-
-
-
-
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "package:flutter_native_splash/flutter_native_splash.dart";
@@ -25,12 +21,13 @@ final _shellNavigatorAttendanceKey =
     GlobalKey<NavigatorState>(debugLabel: 'mainnavigation');
 
 final _shellNavigatorRoomsKey =
-GlobalKey<NavigatorState>(debugLabel: 'shellRooms');
+    GlobalKey<NavigatorState>(debugLabel: 'shellRooms');
 AuthListen authListen = AuthListen();
 
-
 final GoRouter router = GoRouter(
-    initialLocation: '/home_page',
+
+  initialLocation: '/',
+
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
@@ -46,7 +43,7 @@ final GoRouter router = GoRouter(
         context.read<UserProvider>().email = authListen.userx!.email;
         context.read<UserProvider>().name = authListen.userx!.name;
 
-        redirectTo = '/product_screen';
+        redirectTo = '/home_page';
       } else if (authListen.status == AuthenticationStatus.unauthenticated) {
         redirectTo = '/';
       } else if (authListen.status == AuthenticationStatus.needToFinishSignup) {
@@ -72,63 +69,37 @@ final GoRouter router = GoRouter(
                   pageBuilder: (context, state) => const MaterialPage(
                       child: HomeScreen(), maintainState: true),
                 ),
-
               ]),
-          StatefulShellBranch(
-              navigatorKey: _shellNavigatorRoomsKey,
-              routes: [
-                GoRoute(
-                  path: '/product_screen',
-                  pageBuilder: (context, state) =>
+          StatefulShellBranch(navigatorKey: _shellNavigatorRoomsKey, routes: [
+            GoRoute(
+              path: '/product_screen',
+              pageBuilder: (context, state) =>
                   const MaterialPage(child: ProductScreen()),
-                ),
-              ]),
+            ),
+          ]),
         ]),
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return RootScaffold(child: LoginScreen());
+        return RootScaffold(child: const LoginScreen());
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'second',
           builder: (BuildContext context, GoRouterState state) {
-            return RootScaffold(child: SecondScreen());
+            return RootScaffold(child: const SecondScreen());
           },
         ),
       ],
     ),
-    // GoRoute(
-    //   path: '/add_catalog',
-    //   builder: (context, state) => AddCatalog(),
-    // ),
-    // GoRoute(
-    //   path: '/product_screen',
-    //   builder: (context, state) => RootScaffold(child: ProductScreen()),
-    // ),
-    // GoRoute(
-    //   path: '/other_details',
-    //   builder: (context, state) => RootScaffold(child: OthersDetailScreen()),
-    // ),
-    // GoRoute(
-    //     path: "/home_page",
-    //     builder: (context, state) => RootScaffold(child: HomeScreen()))
-   // GoRoute(
-   //    path: '/add_catalog',
-   //    builder: (context, state) => const AddCatalog(),
-   //  ),
-   //  GoRoute(
-   //    path: '/product_screen',
-   //    builder: (context, state) => RootScaffold(child: ProductScreen()),
-   //  ),
-   //  GoRoute(
-   //    path: '/other_details',
-   //    builder: (context, state) =>
-   //      RootScaffold(child: OthersDetailScreen()),
-   //  ),
-   //  GoRoute(
-   //      path: "/home_page",
-   //      builder: (context, state) =>  RootScaffold(child: HomeScreen()))
-
+    GoRoute(
+      path: '/add_catalog',
+      pageBuilder: (context, state) => const MaterialPage(child: AddCatalog()),
+    ),
+    GoRoute(
+      path: '/other_details',
+      pageBuilder: (context, state) =>
+          const MaterialPage(child: OthersDetailScreen()),
+    ),
   ],
 );

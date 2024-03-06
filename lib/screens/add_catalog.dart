@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inno_hack/core/constants.dart';
 import 'package:inno_hack/core/validators.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:inno_hack/models/catalog.dart';
+import 'package:inno_hack/provider/images_provider.dart';
+import 'package:inno_hack/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class AddCatalog extends StatefulWidget {
   const AddCatalog({super.key});
@@ -15,6 +22,16 @@ class AddCatalog extends StatefulWidget {
 class _AddCatalogState extends State<AddCatalog> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final List<String> boxContents = [];
+
+  String? productName;
+  String? price;
+  Categories? category;
+  String? desc;
+  String? brand;
+  String? warranty;
+  String? returnPeriod;
+  String? state;
+  ImagesProvider imagesProvider = ImagesProvider();
 
   InputDecoration getInputDecoration(String text) {
     return InputDecoration(
@@ -46,6 +63,23 @@ class _AddCatalogState extends State<AddCatalog> {
 
   void onSave() {
     final bool dataIsValid = formkey.currentState!.validate();
+
+    if (dataIsValid) {
+      formkey.currentState!.save();
+      final catalog = Catalog(
+          title: productName!,
+          price: int.parse(price!),
+          category: category!,
+          description: desc!,
+          brand: brand!,
+          warranty: int.parse(warranty!),
+          returnPeriod: int.parse(returnPeriod!),
+          state: state!,
+          userId: context.read<UserProvider>().uid,
+          images: imagesProvider.images);
+
+      catalog.uploadImagesToFirebase();
+    }
   }
 
   @override
@@ -65,7 +99,7 @@ class _AddCatalogState extends State<AddCatalog> {
         centerTitle: true,
       ),
       floatingActionButton: InkWell(
-        onTap: () {},
+        onTap: onSave,
         child: Container(
             height: 50,
             width: 100,
@@ -78,7 +112,10 @@ class _AddCatalogState extends State<AddCatalog> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   "Save",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22),
                 ))),
       ),
       body: Padding(
@@ -91,7 +128,10 @@ class _AddCatalogState extends State<AddCatalog> {
               const SizedBox(
                 height: 20,
               ),
-              const ImagesList(images: []),
+              ListenableProvider(
+                create: (_) => imagesProvider,
+                child: const ImagesList(),
+              ),
               const SizedBox(
                 height: 30,
               ),
@@ -108,6 +148,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       TextFormField(
                         validator: (value) => Validators.titleValidator(value),
                         decoration: getInputDecoration('Enter Product Name'),
+                        onSaved: (value) => productName = value,
                       ),
                       const SizedBox(
                         height: 20,
@@ -120,7 +161,8 @@ class _AddCatalogState extends State<AddCatalog> {
                       TextFormField(
                         keyboardType: TextInputType.number,
                         validator: (value) => Validators.priceValidator(value),
-                        decoration: getInputDecoration('Title'),
+                        decoration: getInputDecoration('Price'),
+                        onSaved: (value) => price = value,
                       ),
                       const SizedBox(
                         height: 20,
@@ -131,13 +173,16 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       DropdownButtonFormField(
+                        onSaved: (value) => category!.value,
                         items: Categories.values
                             .map((item) => DropdownMenuItem<Categories>(
                                   value: item,
                                   child: Text(item.value),
                                 ))
                             .toList(),
-                        onChanged: (Categories? category) {},
+                        onChanged: (Categories? value) {
+                          category = value;
+                        },
                         decoration: getInputDecoration(''),
                       ),
                       const SizedBox(
@@ -152,6 +197,7 @@ class _AddCatalogState extends State<AddCatalog> {
                         minLines: 3,
                         maxLines: 5,
                         keyboardType: TextInputType.number,
+                        onSaved: (value) => desc = value,
                         validator: (value) => Validators.descValidator(value),
                         decoration:
                             getInputDecoration('Enter Product Description'),
@@ -165,6 +211,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        onSaved: (value) => brand = value,
                         keyboardType: TextInputType.number,
                         validator: (value) => Validators.brandValidator(value),
                         decoration: getInputDecoration('Brand'),
@@ -178,6 +225,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        onSaved: (value) => warranty = value,
                         keyboardType: TextInputType.number,
                         validator: (value) =>
                             Validators.warrantyValidator(value),
@@ -193,6 +241,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        onSaved: (value) => returnPeriod = value,
                         keyboardType: TextInputType.number,
                         validator: (value) =>
                             Validators.returnPeriodValidator(value),
@@ -208,6 +257,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        onSaved: (value) => state = value,
                         keyboardType: TextInputType.number,
                         validator: (value) =>
                             Validators.locationValidator(value),
@@ -265,66 +315,85 @@ class _AddCatalogState extends State<AddCatalog> {
 }
 
 class ImagesList extends StatefulWidget {
-  const ImagesList({super.key, required this.images});
-
-  final List<String> images;
+  const ImagesList({super.key});
 
   @override
   State<ImagesList> createState() => _ImagesListState();
 }
 
 class _ImagesListState extends State<ImagesList> {
+  late final images = context.read<ImagesProvider>();
+
   void addImage() async {
     FilePickerResult? result =
         await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result != null) {
+      setState(() {
+        for (PlatformFile file in result.files) {
+          context.read<ImagesProvider>().images.add(file.path!);
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: addImage,
-      child: Stack(children: [
-        widget.images.isEmpty
-            ? Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFF335A02)),
-                    borderRadius: BorderRadius.circular(60),
+      child: Center(
+        child: Stack(children: [
+          images.images.isEmpty
+              ? Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xFF335A02)),
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                    padding: const EdgeInsets.all(7),
+                    child: Image.asset(
+                      'assets/images/add_icon.png',
+                      width: 64,
+                      height: 64,
+                      scale: 0.5,
+                    ),
                   ),
-                  padding: const EdgeInsets.all(7),
-                  child: Image.asset(
-                    'assets/images/add_icon.png',
-                    width: 64,
-                    height: 64,
-                    scale: 0.5,
-                  ),
-                ),
-              )
-            : CarouselSlider.builder(
-                itemCount: widget.images.length,
-                itemBuilder: (context, index, realIndex) =>
-                    Image.asset('assets/images/default_image.png'),
-                options: CarouselOptions()),
-        // Positioned(
-        //     bottom: 0,
-        //     right: 40,
-        //     child: Container(
-        //       width: 64,
-        //       height: 64,
-        //       decoration: const BoxDecoration(
-        //         shape: BoxShape.circle,
-        //         color: Color.fromARGB(255, 234, 196, 72),
-        //       ),
-        //       child: InkWell(
-        //         onTap: addImage,
-        //         child: const Icon(
-        //           Icons.add,
-        //           color: Colors.white,
-        //           size: 32,
-        //         ),
-        //       ),
-        //     )),
-      ]),
+                )
+              : (images.images.length == 1
+                  ? Image.file(
+                      File(images.images[0]),
+                      height: 128,
+                      width: 128,
+                    )
+                  : CarouselSlider.builder(
+                      itemCount: images.images.length,
+                      itemBuilder: (context, index, realIndex) => Image.file(
+                            File(images.images[index]),
+                            height: 128,
+                            width: 128,
+                          ),
+                      options: CarouselOptions())),
+          // Positioned(
+          //     bottom: 0,
+          //     right: 40,
+          //     child: Container(
+          //       width: 64,
+          //       height: 64,
+          //       decoration: const BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         color: Color.fromARGB(255, 234, 196, 72),
+          //       ),
+          //       child: InkWell(
+          //         onTap: addImage,
+          //         child: const Icon(
+          //           Icons.add,
+          //           color: Colors.white,
+          //           size: 32,
+          //         ),
+          //       ),
+          //     )),
+        ]),
+      ),
     );
   }
 }
