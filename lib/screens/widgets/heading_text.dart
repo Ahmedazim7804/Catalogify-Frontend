@@ -16,7 +16,7 @@ class HeadingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // width: 125,
-      margin: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+      // margin: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: const BoxDecoration(
           color: Colors.teal,

@@ -78,7 +78,7 @@ class _AddCatalogState extends State<AddCatalog> {
           userId: context.read<UserProvider>().uid,
           images: imagesProvider.images);
 
-      catalog.uploadImagesToFirebase();
+      catalog.uploadCatalog();
     }
   }
 

@@ -31,7 +31,7 @@ final _shellNavigatorProfileKey =
 AuthListen authListen = AuthListen();
 
 final GoRouter router = GoRouter(
-  initialLocation: '/home_page',
+  initialLocation: '/',
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
@@ -62,7 +62,6 @@ final GoRouter router = GoRouter(
   routes: [
     StatefulShellRoute.indexedStack(
         builder: (context, state, child) {
-          print(state.fullPath);
           return RootScaffold(child: child);
         },
         branches: [
