@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'lib/models/catalog.dart';
+import 'package:inno_hack/models/catalog.dart';
 import "package:http/http.dart" as http;
 
 import 'base_endpoints.dart';
@@ -109,15 +108,16 @@ Future<bool> createPost(Catalog catalog) async {
   final requestData = {
     "title": catalog.title,
     "cost": catalog.price,
-    "category": catalog.category.value,
+    "category": catalog.category.value.toString(),
     "description": catalog.description,
     "brand": catalog.brand,
     "warranty_months": catalog.warranty,
     "return_days": catalog.returnPeriod,
     "seller_location": catalog.state,
     "images": catalog.images,
-    "in_box": Null
+    "in_box": ""
   };
+  print(requestData);
   Map<String, String> header = await headers();
   final response = await http.post(uri, headers: header, body: jsonEncode(requestData));
   if (response.statusCode == 200) {
@@ -125,5 +125,17 @@ Future<bool> createPost(Catalog catalog) async {
   } else {
     print(response.body);
     return false;
+  }
+}
+
+Future<dynamic> listPosts() async {
+  final Uri uri = Uri.parse('${getBaseURL()}/user/list-posts/');
+  Map<String, String> header = await headers();
+  final response = await http.get(uri, headers: header);
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception(
+        'Failed to load data from endpoint: ${response.statusCode} ${response.body}');
   }
 }
