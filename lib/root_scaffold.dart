@@ -14,7 +14,10 @@ class RootScaffold extends StatelessWidget {
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
         title: Center(
-          child: Text("Innohacks", style: GoogleFonts.adamina()),
+          child: Text(
+            "Innohacks",
+            style: GoogleFonts.exo2(),
+          ),
         ),
       ),
       body: child,
