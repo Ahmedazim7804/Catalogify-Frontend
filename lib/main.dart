@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import 'package:inno_hack/Router/router.dart';
-import 'Router/router.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -8,13 +8,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
 
       theme: ThemeData(
+
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         secondaryHeaderColor: Colors.pink,
         primaryColor: Colors.teal,
+
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+
         useMaterial3: true,
       ),
 
