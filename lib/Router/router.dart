@@ -1,3 +1,5 @@
+
+
 import "package:flutter_native_splash/flutter_native_splash.dart";
 import "package:go_router/go_router.dart";
 
@@ -13,12 +15,17 @@ import "package:inno_hack/screens/user_details_screen.dart";
 import "package:inno_hack/screens/products_screen.dart";
 import "package:inno_hack/screens/second_screen.dart";
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorAttendanceKey =
+    GlobalKey<NavigatorState>(debugLabel: 'mainnavigation');
+
+final _shellNavigatorRoomsKey =
+GlobalKey<NavigatorState>(debugLabel: 'shellRooms');
 AuthListen authListen = AuthListen();
+
+
 final GoRouter router = GoRouter(
-
   initialLocation: '/home_page',
-
-
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
@@ -42,37 +49,61 @@ final GoRouter router = GoRouter(
     FlutterNativeSplash.remove();
     return redirectTo;
   },
-  routes: <RouteBase>[
+  routes: [
+    StatefulShellRoute.indexedStack(
+        builder: (context, state, child) {
+          print(state.fullPath);
+          return RootScaffold(child: child);
+        },
+        branches: [
+          StatefulShellBranch(
+              navigatorKey: _shellNavigatorAttendanceKey,
+              routes: [
+                GoRoute(
+                  path: '/home_page',
+                  pageBuilder: (context, state) => const MaterialPage(
+                      child: HomeScreen(), maintainState: true),
+                ),
+
+              ]),
+          StatefulShellBranch(
+              navigatorKey: _shellNavigatorRoomsKey,
+              routes: [
+                GoRoute(
+                  path: '/product_screen',
+                  pageBuilder: (context, state) =>
+                  const MaterialPage(child: ProductScreen()),
+                ),
+              ]),
+        ]),
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const RootScaffold(child: LoginScreen());
+        return RootScaffold(child: LoginScreen());
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'second',
           builder: (BuildContext context, GoRouterState state) {
-            return const RootScaffold(child: SecondScreen());
+            return RootScaffold(child: SecondScreen());
           },
         ),
       ],
     ),
-    GoRoute(
-      path: '/add_catalog',
-      builder: (context, state) => const AddCatalog(),
-    ),
-    GoRoute(
-      path: '/product_screen',
-      builder: (context, state) => const RootScaffold(child: ProductScreen()),
-    ),
-    GoRoute(
-      path: '/other_details',
-      builder: (context, state) =>
-          const RootScaffold(child: OthersDetailScreen()),
-    ),
-    GoRoute(path: "/home_page",
-    builder: (context, state)=>
-    const RootScaffold(child: HomeScreen())
-    )
+    // GoRoute(
+    //   path: '/add_catalog',
+    //   builder: (context, state) => AddCatalog(),
+    // ),
+    // GoRoute(
+    //   path: '/product_screen',
+    //   builder: (context, state) => RootScaffold(child: ProductScreen()),
+    // ),
+    // GoRoute(
+    //   path: '/other_details',
+    //   builder: (context, state) => RootScaffold(child: OthersDetailScreen()),
+    // ),
+    // GoRoute(
+    //     path: "/home_page",
+    //     builder: (context, state) => RootScaffold(child: HomeScreen()))
   ],
 );

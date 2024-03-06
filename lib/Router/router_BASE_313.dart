@@ -42,13 +42,13 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const RootScaffold(child: LoginScreen());
+        return  RootScaffold(child: LoginScreen());
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'second',
           builder: (BuildContext context, GoRouterState state) {
-            return const RootScaffold(child: SecondScreen());
+            return  RootScaffold(child: SecondScreen());
           },
         ),
       ],
@@ -59,12 +59,12 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/product_screen',
-      builder: (context, state) => const RootScaffold(child: ProductScreen()),
+      builder: (context, state) =>  RootScaffold(child: ProductScreen()),
     ),
     GoRoute(
       path: '/other_details',
       builder: (context, state) =>
-          const RootScaffold(child: OthersDetailScreen()),
+           RootScaffold(child: OthersDetailScreen()),
     )
   ],
 );

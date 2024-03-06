@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:inno_hack/screens/widgets/heading_text.dart';
+
 import 'package:inno_hack/utilities/constants.dart';
 
 class ProductItem extends StatefulWidget {
@@ -14,7 +13,7 @@ class ProductItem extends StatefulWidget {
 
 class _ProductItemState extends State<ProductItem> {
   final int index;
-  bool _expanded = false;
+
 
   _ProductItemState({required this.index});
 
@@ -30,12 +29,11 @@ class _ProductItemState extends State<ProductItem> {
       ),
       elevation: 5,
       child: Padding(
-        padding:
-            const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
+        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
         child: ListTile(
           leading: Container(
-            height: 100,
-            width: 100,
+            height: 60,
+            width: 60,
             decoration: BoxDecoration(
               border: Border.all(
                 color: Colors.black,
@@ -47,16 +45,35 @@ class _ProductItemState extends State<ProductItem> {
           ),
           title: Column(
             children: [
-              Text(
-                'this is title',
-                style: kLargeTextStyle,
+              Center(
+                child: Text(
+                  'Cotton Black TShirt For Men',
+                  style: kLargeTextStyle,
+                ),
               ),
-              Text('Price', style: kNormalTextStyle,),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Price',
+                style: kNormalTextStyle,
+              ),
+              SizedBox(
+                height: 10,
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-
+                  IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                  SizedBox(
+                    width: 60,
+                  )
                 ],
-              )
+              ),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),

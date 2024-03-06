@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:inno_hack/screens/widgets/product_item.dart";
 import "package:inno_hack/utilities/constants.dart";
-
+import "package:go_router/go_router.dart";
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        BottomNavigationBarItem(icon: Icon(Icons.history), label: "Products"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle), label: "Profile"),
-      ]),
+
       bottomSheet: Container(
         width: double.infinity,
         padding: EdgeInsets.all(20),
@@ -67,15 +63,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.add),
-                    Text(
-                      "Add",
-                      style: kNormalTextStyle,
-                    )
-                  ]),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          20.0), // Adjust the border radius as needed
+                    ),
+                  ),
+                ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.add),
+                      Text(
+                        "Add",
+                        style: kNormalTextStyle,
+                      )
+                    ]),
+              ),
             ),
             SizedBox(
               height: 20,
