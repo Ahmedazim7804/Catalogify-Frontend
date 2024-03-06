@@ -43,6 +43,7 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
                         child: Image.network(
                             "https://th.bing.com/th/id/OIP.eGHa3HgHxIlTHmcvKNDs7AHaGe?rs=1&pid=ImgDetMain"),
                       ),
+
                       Column(
                         children: [
                           Text("This is title", style: kLargeTextStyle),
