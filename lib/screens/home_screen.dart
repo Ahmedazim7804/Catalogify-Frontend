@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomSheet: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         height: 450,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
