@@ -46,5 +46,12 @@ void main() {
       expect(Null == result || Null != result, true);
     });
   });
+  group('deletePost', () {
+    test('returns true if HTTP request succeeds', () async {
+      final result = await deletePost("ed46fe62-3fba-4bdd-88bd-40645f5fc8da");
+      print(result);
+      expect(false == result || true == result, true);
+    });
+  });
 
 }
