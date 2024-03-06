@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:google_fonts/google_fonts.dart";
+import 'package:inno_hack/provider/user_provider.dart';
 import 'package:inno_hack/screens/widgets/overlay_widget.dart';
 import "package:inno_hack/utilities/constants.dart";
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,17 +38,15 @@ class _LoginScreenState extends State<LoginScreen> {
       FirebaseAuth.instance
           .signInWithCredential(credential)
           .then((userCredential) {
-        // context.read<UidProvider>().uid = userCredential.user!.uid;
+        context.read<UserProvider>().uid = userCredential.user!.uid;
+        context.read<UserProvider>().email = userCredential.user!.email!;
 
         if (userCredential.additionalUserInfo!.isNewUser) {
           context.go(
-            '/product_screen',
+            '/other_details',
           );
           overlayPortalController.hide();
         } else {
-          context.go(
-            '/product_screen',
-          );
           overlayPortalController.hide();
         }
       });

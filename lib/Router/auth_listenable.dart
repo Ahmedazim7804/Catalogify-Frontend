@@ -1,53 +1,52 @@
-// import 'dart:async';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:inno_hack/data/user_endpoints.dart';
 
-// enum AuthenticationStatus {
-//   authenticated,
-//   unauthenticated,
-//   needToFinishSignup,
-//   waiting,
-// }
+enum AuthenticationStatus {
+  authenticated,
+  unauthenticated,
+  needToFinishSignup,
+  waiting,
+}
 
-// class AuthListen extends ChangeNotifier {
-//   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-//   late final StreamSubscription<dynamic> subscription;
-//   User? userx;
+class AuthListen extends ChangeNotifier {
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  late final StreamSubscription<dynamic> subscription;
+  User? userx;
 
-//   AuthenticationStatus status = AuthenticationStatus.waiting;
-//   late bool isEmployee;
+  AuthenticationStatus status = AuthenticationStatus.waiting;
 
-//   AuthListen() {
-//     notifyListeners();
-//     listenToFirebaseAuth();
-//   }
+  AuthListen() {
+    notifyListeners();
+    listenToFirebaseAuth();
+  }
 
-//   void listenToFirebaseAuth() async {
-//     subscription = firebaseAuth.authStateChanges().listen((user) async {
-//       if (user != null) {
-//         // bool existOnBackend = await checkUser();
+  void listenToFirebaseAuth() async {
+    subscription = firebaseAuth.authStateChanges().listen((user) async {
+      if (user != null) {
+        bool existOnBackend = await checkUser();
 
-//         // if (existOnBackend) {
-//           // final backendUser = await getUser();
+        if (existOnBackend) {
+          final backendUser = await getUser();
+          print(backendUser);
 
-//           // isEmployee = backendUser['user_type'] == 'employee' ? true : false;
+          status = AuthenticationStatus.authenticated;
+        } else {
+          status = AuthenticationStatus.needToFinishSignup;
+        }
+      } else {
+        status = AuthenticationStatus.unauthenticated;
+      }
 
-//           status = AuthenticationStatus.authenticated;
-//         } else {
-//           status = AuthenticationStatus.needToFinishSignup;
-//         }
-//       } else {
-//         status = AuthenticationStatus.unauthenticated;
-//       }
+      notifyListeners();
+    });
+  }
 
-//       notifyListeners();
-//     });
-//   }
-
-//   @override
-//   void dispose() {
-//     // TODO: implement dispose
-//     subscription.cancel();
-//     super.dispose();
-//   }
-// }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    subscription.cancel();
+    super.dispose();
+  }
+}

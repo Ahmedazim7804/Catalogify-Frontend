@@ -19,8 +19,7 @@ Future<bool> checkUser() async {
 }
 
 Future<bool> createUserOnBackend(
-    {
-    required String email,
+    {required String email,
     required String name,
     required String firebaseUserId}) async {
   final Uri uri = Uri.parse('${getBaseURL()}/user/create-user/');
@@ -54,7 +53,6 @@ Future<dynamic> getUser() async {
         'Failed to load data from endpoint: ${response.statusCode} ${response.body}');
   }
 }
-
 
 Future<bool> addFeedback(int rating, String feedback) async {
   final Uri uri = Uri.parse('${getBaseURL()}/user/add-feedback/');

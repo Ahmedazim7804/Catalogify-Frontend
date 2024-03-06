@@ -37,7 +37,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   go_router: ^13.2.0
   google_fonts: 6.1.0
+  flutter_svg: ^2.0.9
   file_picker: ^6.2.0
+  provider:
+  flutter_bloc:
+  flutter_native_splash: ^2.3.10
   
 
 
