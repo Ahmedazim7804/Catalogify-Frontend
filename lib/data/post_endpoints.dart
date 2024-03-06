@@ -51,3 +51,29 @@ Future<bool> editPost(String postID, Catalog catalog) async {
         'Failed to load data from endpoint: ${response.statusCode} ${response.body}');
   }
 }
+
+Future<bool> createPostAssessment(String postID) async {
+  final Uri uri = Uri.parse('${getBaseURL()}/post/$postID/create-assessment/');
+  Map<String, String> header = await headers();
+  final response = await http.get(uri, headers: header);
+  if (response.statusCode == 200) {
+    return true;
+  } else if (response.statusCode == 409 || response.statusCode == 404) {
+    return false;
+  } else {
+    throw Exception(
+        'Failed to load data from endpoint: ${response.statusCode} ${response.body}');
+  }
+}
+
+Future<dynamic> getPostAssessment(String postID) async {
+  final Uri uri = Uri.parse('${getBaseURL()}/post/$postID/get-assessment/');
+  Map<String, String> header = await headers();
+  final response = await http.get(uri, headers: header);
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception(
+        'Failed to load data from endpoint: ${response.statusCode} ${response.body}');
+  }
+}

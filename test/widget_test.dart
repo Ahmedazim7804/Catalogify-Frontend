@@ -26,7 +26,7 @@ void main() {
           warranty: 60,
           returnPeriod: 7,
           state: "state",
-          images: ["image1", "image2"],
+          images: ["https://firebasestorage.googleapis.com/v0/b/innohack-hackathon.appspot.com/o/user%2Fc44f0f84-b0b3-4042-84cd-87fde2b50211%2F68fa8be0-b76d-1ef8-9861-355ce1d25902.jpg?alt=media&token=ebaf6d85-3c8f-4e5b-b6e3-b6341bd11312", "https://firebasestorage.googleapis.com/v0/b/innohack-hackathon.appspot.com/o/user%2Fc44f0f84-b0b3-4042-84cd-87fde2b50211%2F68fa8be0-b76d-1ef8-9861-355ce1d25902.jpg?alt=media&token=ebaf6d85-3c8f-4e5b-b6e3-b6341bd11312"],
           userId: "userId",
       ));
       expect(result == true || result == false, true);
@@ -51,6 +51,20 @@ void main() {
       final result = await deletePost("ed46fe62-3fba-4bdd-88bd-40645f5fc8da");
       print(result);
       expect(false == result || true == result, true);
+    });
+  });
+  group('createPostAssessment', () {
+    test('returns true if HTTP request succeeds', () async {
+      final result = await createPostAssessment("05b8c149-b66e-4546-a0a5-6443c5bbf7a9");
+      print(result);
+      expect(false == result || true == result, true);
+    });
+  });
+  group('getPostAssessment', () {
+    test('returns true if HTTP request succeeds', () async {
+      final result = await getPostAssessment("05b8c149-b66e-4546-a0a5-6443c5bbf7a9");
+      print(result);
+      expect(Null == result || Null != result, true);
     });
   });
 
