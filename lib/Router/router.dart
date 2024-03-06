@@ -25,7 +25,7 @@ final _shellNavigatorRoomsKey =
 AuthListen authListen = AuthListen();
 
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/home_page',
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
@@ -99,5 +99,6 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) =>
           const MaterialPage(child: OthersDetailScreen()),
     ),
+
   ],
 );

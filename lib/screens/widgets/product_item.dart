@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inno_hack/core/constants.dart';
+import 'package:inno_hack/screens/widgets/SingleProduct.dart';
 
 import 'package:inno_hack/utilities/constants.dart';
 
@@ -14,67 +16,80 @@ class ProductItem extends StatefulWidget {
 class _ProductItemState extends State<ProductItem> {
   final int index;
 
+  void _showsingleproduct() {
+    showModalBottomSheet(
+        useSafeArea: true,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => SingleProduct(title: 'title', price: 20, category: Categories.books, description: "description is this khushal bhasin", brand: "brand", warranty: 20, returnPeriod: 20, state: "state", userId: "userId", images: []));
+  }
 
   _ProductItemState({required this.index});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-      color: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.black, width: 1.0),
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
-        child: ListTile(
-          leading: Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.black,
-                width: 0.3,
-              ),
-            ),
-            child: Image.network(
-                "https://th.bing.com/th/id/OIP.SGe24T2pZb0yX3NYSWydDQHaJg?rs=1&pid=ImgDetMain"),
-          ),
-          title: Column(
-            children: [
-              Center(
-                child: Text(
-                  'Cotton Black TShirt For Men',
-                  style: kLargeTextStyle,
+    return GestureDetector(
+      onTap: (){
+        _showsingleproduct();
+      },
+      child: Card(
+
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.black, width: 1.0),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+          child: ListTile(
+            leading: Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.black,
+                  width: 0.3,
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Price',
-                style: kNormalTextStyle,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
-                  SizedBox(
-                    width: 60,
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
+              child: Image.network(
+                  "https://th.bing.com/th/id/OIP.SGe24T2pZb0yX3NYSWydDQHaJg?rs=1&pid=ImgDetMain"),
+            ),
+            title: Column(
+              children: [
+                Center(
+                  child: Text(
+                    'Cotton Black TShirt For Men',
+                    style: kLargeTextStyle,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Price',
+                  style: kNormalTextStyle,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                    SizedBox(
+                      width: 60,
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
           ),
         ),
       ),
