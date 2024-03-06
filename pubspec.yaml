@@ -44,6 +44,7 @@ dependencies:
   flutter_native_splash: ^2.3.10
   firebase_storage: ^11.6.8
   flutter_expandable_fab: ^2.0.0
+  material_design_icons_flutter: ^6.0.0
   
 
 
@@ -61,6 +62,7 @@ dev_dependencies:
   firebase_auth: ^4.17.7
   google_sign_in: ^6.2.1
   carousel_slider: ^4.2.1
+  flutter_rating_bar: ^4.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

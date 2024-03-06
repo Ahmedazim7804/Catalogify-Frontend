@@ -7,9 +7,11 @@ import "package:flutter/material.dart";
 import "package:inno_hack/Router/auth_listenable.dart";
 import "package:inno_hack/provider/user_provider.dart";
 import "package:inno_hack/root_scaffold.dart";
+import "package:inno_hack/screens/LeaderBoardScreen.dart";
 
 import "package:inno_hack/screens/add_catalog.dart";
 import "package:inno_hack/screens/home_screen.dart";
+import "package:inno_hack/screens/leaderboard_categories.dart";
 
 import "package:inno_hack/screens/login_screen.dart";
 import "package:inno_hack/screens/profile_screen.dart";
@@ -75,9 +77,9 @@ final GoRouter router = GoRouter(
               ]),
           StatefulShellBranch(navigatorKey: _shellNavigatorRoomsKey, routes: [
             GoRoute(
-              path: '/product_screen',
+              path: '/leaderboard_screen',
               pageBuilder: (context, state) =>
-                  const MaterialPage(child: ProductScreen()),
+                  const MaterialPage(child: LeaderBoardScreen()),
             ),
           ]),
           StatefulShellBranch(navigatorKey: _shellNavigatorProfileKey, routes: [

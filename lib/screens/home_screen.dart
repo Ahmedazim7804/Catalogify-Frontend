@@ -3,8 +3,7 @@ import "package:flutter_expandable_fab/flutter_expandable_fab.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:inno_hack/screens/widgets/heading_text.dart";
 import "package:inno_hack/screens/widgets/product_item.dart";
-import "package:inno_hack/utilities/constants.dart";
-import 'package:inno_hack/screens/widgets/heading_text.dart';
+
 import "package:go_router/go_router.dart";
 
 class HomeScreen extends StatefulWidget {
@@ -18,16 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
-        title: Center(
-          child: Text(
-            "InnoHacks",
-            style: GoogleFonts.exo2(),
-          ),
-        ),
-      ),
+
+
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
         openButtonBuilder: RotateFloatingActionButtonBuilder(
