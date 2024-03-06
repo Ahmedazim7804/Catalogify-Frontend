@@ -2,8 +2,12 @@ import "package:go_router/go_router.dart";
 
 import "package:flutter/material.dart";
 import "package:inno_hack/root_scaffold.dart";
+
 import "package:inno_hack/screens/add_catalog.dart";
-import "package:inno_hack/screens/home_page.dart";
+
+
+import "package:inno_hack/screens/login_screen.dart";
+
 import "package:inno_hack/screens/second_screen.dart";
 
 final GoRouter router = GoRouter(
@@ -12,7 +16,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const RootScaffold(child: HomeScreen());
+        return const RootScaffold(child: LoginScreen());
       },
       routes: <RouteBase>[
         GoRoute(
