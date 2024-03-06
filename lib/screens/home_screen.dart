@@ -3,6 +3,7 @@ import "package:flutter_expandable_fab/flutter_expandable_fab.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:inno_hack/bloc/catalog_cubits.dart";
 import "package:inno_hack/models/catalog.dart";
+import "package:inno_hack/provider/user_provider.dart";
 import "package:inno_hack/screens/widgets/heading_text.dart";
 import "package:inno_hack/screens/widgets/product_item.dart";
 
@@ -109,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    "Hi,\nKhushal Bhasin",
+                    "Hi,\n${context.read<UserProvider>().name}",
                     style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: 19,

@@ -6,11 +6,13 @@ import "package:go_router/go_router.dart";
 import "package:flutter/material.dart";
 import "package:inno_hack/Router/auth_listenable.dart";
 import "package:inno_hack/core/constants.dart";
+import "package:inno_hack/models/catalog.dart";
 import "package:inno_hack/provider/user_provider.dart";
 import "package:inno_hack/root_scaffold.dart";
 import "package:inno_hack/screens/LeaderBoardScreen.dart";
 
 import "package:inno_hack/screens/add_catalog.dart";
+import "package:inno_hack/screens/edit_catalog.dart";
 import "package:inno_hack/screens/home_screen.dart";
 import "package:inno_hack/screens/leaderboard_categories.dart";
 
@@ -78,8 +80,9 @@ final GoRouter router = GoRouter(
           StatefulShellBranch(navigatorKey: _shellNavigatorRoomsKey, routes: [
             GoRoute(
               path: '/leaderboard_screen',
-              pageBuilder: (context, state) =>
-                   MaterialPage(child: LeaderBoardScreen( title: 'title',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: LeaderBoardScreen(
+                      title: 'title',
                       price: 20,
                       category: Categories.books,
                       description: "description is this khushal bhasin",
@@ -117,6 +120,16 @@ final GoRouter router = GoRouter(
       path: '/add_catalog',
       pageBuilder: (context, state) => const MaterialPage(child: AddCatalog()),
     ),
+    GoRoute(
+        path: '/edit_catalog',
+        name: 'edit_catalog',
+        pageBuilder: (context, state) {
+          final Catalog catalog = state.extra as Catalog;
+          return MaterialPage(
+              child: EditCatalog(
+            catalog: catalog,
+          ));
+        }),
     GoRoute(
       path: '/other_details',
       pageBuilder: (context, state) =>

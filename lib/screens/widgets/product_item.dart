@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:inno_hack/core/constants.dart';
 import 'package:inno_hack/models/catalog.dart';
 import 'package:inno_hack/screens/widgets/SingleProduct.dart';
@@ -81,7 +82,8 @@ class _ProductItemState extends State<ProductItem> {
                         fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () => context.pushNamed('edit_catalog',
+                        extra: widget.catalog),
                     icon: const Icon(Icons.edit),
                     style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(),

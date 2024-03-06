@@ -12,28 +12,35 @@ import 'package:inno_hack/provider/images_provider.dart';
 import 'package:inno_hack/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
-class AddCatalog extends StatefulWidget {
-  const AddCatalog({super.key, this.catalog});
+class EditCatalog extends StatefulWidget {
+  const EditCatalog({super.key, required this.catalog});
 
-  final Catalog? catalog;
+  final Catalog catalog;
 
   @override
-  State<AddCatalog> createState() => _AddCatalogState();
+  State<EditCatalog> createState() => _AddCatalogState();
 }
 
-class _AddCatalogState extends State<AddCatalog> {
+class _AddCatalogState extends State<EditCatalog> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final List<String> boxContents = [];
 
   String? productName;
   String? price;
-  Categories? category;
+  late Categories? category = widget.catalog.category;
   String? desc;
   String? brand;
   String? warranty;
   String? returnPeriod;
   String? state;
   ImagesProvider imagesProvider = ImagesProvider();
+
+  @override
+  void initState() {
+    imagesProvider.images = widget.catalog.images;
+    // TODO: implement initState
+    super.initState();
+  }
 
   InputDecoration getInputDecoration(String text) {
     return InputDecoration(
@@ -149,6 +156,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        initialValue: widget.catalog.title,
                         validator: (value) => Validators.titleValidator(value),
                         decoration: getInputDecoration('Enter Product Name'),
                         onSaved: (value) => productName = value,
@@ -162,6 +170,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        initialValue: widget.catalog.price.toString(),
                         keyboardType: TextInputType.number,
                         validator: (value) => Validators.priceValidator(value),
                         decoration: getInputDecoration('Price'),
@@ -197,6 +206,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        initialValue: widget.catalog.description,
                         minLines: 3,
                         maxLines: 5,
                         onSaved: (value) => desc = value,
@@ -213,6 +223,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        initialValue: widget.catalog.brand,
                         onSaved: (value) => brand = value,
                         validator: (value) => Validators.brandValidator(value),
                         decoration: getInputDecoration('Brand'),
@@ -226,6 +237,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        initialValue: widget.catalog.warranty.toString(),
                         onSaved: (value) => warranty = value,
                         validator: (value) =>
                             Validators.warrantyValidator(value),
@@ -241,6 +253,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        initialValue: widget.catalog.returnPeriod.toString(),
                         onSaved: (value) => returnPeriod = value,
                         validator: (value) =>
                             Validators.returnPeriodValidator(value),
@@ -256,6 +269,7 @@ class _AddCatalogState extends State<AddCatalog> {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        initialValue: widget.catalog.state,
                         onSaved: (value) => state = value,
                         validator: (value) =>
                             Validators.locationValidator(value),
@@ -358,17 +372,17 @@ class _ImagesListState extends State<ImagesList> {
                   ),
                 )
               : (images.images.length == 1
-                  ? Image.file(
-                      File(images.images[0]),
+                  ? Image.network(
+                      images.images[0],
                       height: 128,
                       width: 128,
                     )
                   : CarouselSlider.builder(
                       itemCount: images.images.length,
-                      itemBuilder: (context, index, realIndex) => Image.file(
-                            File(images.images[index]),
-                            height: 128,
-                            width: 128,
+                      itemBuilder: (context, index, realIndex) => Image.network(
+                            images.images[index],
+                            height: 222,
+                            width: 222,
                           ),
                       options: CarouselOptions())),
           // Positioned(

@@ -18,6 +18,7 @@ class CatalogCubit extends Cubit<CatalogState> {
 
     for (final unparsedPost in unparsedPosts) {
       Catalog catalog = Catalog(
+          postId: unparsedPost['id'],
           title: unparsedPost['title'],
           price: (unparsedPost['cost'] as double).toInt(),
           category: Categories.fromValue(unparsedPost['category']),

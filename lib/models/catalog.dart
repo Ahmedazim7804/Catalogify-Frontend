@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:inno_hack/data/post_endpoints.dart';
 import 'package:uuid/uuid.dart';
 import 'package:inno_hack/core/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -16,6 +17,7 @@ class Catalog {
       required this.returnPeriod,
       required this.state,
       this.userId,
+      this.postId,
       required this.images});
 
   final String title;
@@ -27,11 +29,17 @@ class Catalog {
   final int warranty;
   final int returnPeriod;
   final String state;
+  final String? postId;
   List<dynamic> images;
 
   void uploadCatalog() async {
     images = await uploadImagesToFirebase();
     await createPost(this);
+  }
+
+  void editCatalog() async {
+    images = await uploadImagesToFirebase();
+    await editPost(postId!, this);
   }
 
   Future<List<String>> uploadImagesToFirebase() async {
