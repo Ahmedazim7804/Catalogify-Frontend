@@ -30,7 +30,7 @@ AuthListen authListen = AuthListen();
 
 
 final GoRouter router = GoRouter(
-  initialLocation: '/home_page',
+  initialLocation: '/',
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
@@ -46,7 +46,7 @@ final GoRouter router = GoRouter(
         context.read<UserProvider>().email = authListen.userx!.email;
         context.read<UserProvider>().name = authListen.userx!.name;
 
-        redirectTo = '/product_screen';
+        redirectTo = '/home_page';
       } else if (authListen.status == AuthenticationStatus.unauthenticated) {
         redirectTo = '/';
       } else if (authListen.status == AuthenticationStatus.needToFinishSignup) {
