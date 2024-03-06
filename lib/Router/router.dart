@@ -14,7 +14,7 @@ import "package:inno_hack/screens/second_screen.dart";
 
 AuthListen authListen = AuthListen();
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/add_catalog',
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
