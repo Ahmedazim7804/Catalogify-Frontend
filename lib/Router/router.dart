@@ -6,6 +6,7 @@ import "package:inno_hack/Router/auth_listenable.dart";
 import "package:inno_hack/root_scaffold.dart";
 
 import "package:inno_hack/screens/add_catalog.dart";
+import "package:inno_hack/screens/home_screen.dart";
 
 import "package:inno_hack/screens/login_screen.dart";
 import "package:inno_hack/screens/user_details_screen.dart";
@@ -14,7 +15,7 @@ import "package:inno_hack/screens/second_screen.dart";
 
 AuthListen authListen = AuthListen();
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/home_page',
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
@@ -65,6 +66,10 @@ final GoRouter router = GoRouter(
       path: '/other_details',
       builder: (context, state) =>
           const RootScaffold(child: OthersDetailScreen()),
+    ),
+    GoRoute(path: "/home_page",
+    builder: (context, state)=>
+    const RootScaffold(child: HomeScreen())
     )
   ],
 );
