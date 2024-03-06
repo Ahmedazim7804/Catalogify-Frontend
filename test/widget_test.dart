@@ -3,7 +3,9 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:inno_hack/core/constants.dart';
-import 'package:inno_hack/data/user_endpoints.dart';import 'package:inno_hack/main.dart';
+import 'package:inno_hack/data/user_endpoints.dart';
+import 'package:inno_hack/data/post_endpoints.dart';
+import 'package:inno_hack/main.dart';
 import 'package:inno_hack/models/catalog.dart';
 
 void main() {
@@ -37,4 +39,12 @@ void main() {
       expect(Null == result || Null != result, true);
     });
   });
+  group('getPost', () {
+    test('returns true if HTTP request succeeds', () async {
+      final result = await getPost("ed46fe62-3fba-4bdd-88bd-40645f5fc8da");
+      print(result);
+      expect(Null == result || Null != result, true);
+    });
+  });
+
 }
