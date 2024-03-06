@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
 String getBaseURL() {
-  return "https://google-solution-challenge-backend-jpnacpp5ta-em.a.run.app";
+  return "https://innohack-hackathon-server.yellowbush-cadc3844.centralindia.azurecontainerapps.io";
   //return "http://0.0.0.0:80";
-  //return "https://test-google-solution-challenge-backend-jpnacpp5ta-em.a.run.app";
 }
 
 Future<Map<String, String>> headers() async {
