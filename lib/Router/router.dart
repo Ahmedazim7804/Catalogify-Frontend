@@ -30,7 +30,7 @@ AuthListen authListen = AuthListen();
 
 
 final GoRouter router = GoRouter(
-  initialLocation: '/home_page',
+    initialLocation: '/home_page',
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
