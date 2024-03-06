@@ -21,6 +21,7 @@ class _AddCatalogState extends State<AddCatalog> {
       labelText: text,
       labelStyle: const TextStyle(
         fontSize: 16,
+        color: Color(0xFF929497),
         fontFamily: 'Epilogue',
         fontWeight: FontWeight.w500,
         height: 0.06,
@@ -50,8 +51,36 @@ class _AddCatalogState extends State<AddCatalog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:
-          FloatingActionButton(onPressed: onSave, child: const Icon(Icons.add)),
+      backgroundColor: Colors.grey.shade50,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text(
+          "Add",
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        leading: const Icon(
+          Icons.arrow_back,
+          color: Color(0xFF335A02),
+        ),
+        centerTitle: true,
+      ),
+      floatingActionButton: InkWell(
+        onTap: () {},
+        child: Container(
+            height: 50,
+            width: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFFADD0B3),
+            ),
+            alignment: Alignment.center,
+            child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  "Save",
+                  style: TextStyle(color: Colors.white),
+                ))),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: SingleChildScrollView(
@@ -59,20 +88,26 @@ class _AddCatalogState extends State<AddCatalog> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ImagesList(images: ['sd']),
+              const SizedBox(
+                height: 20,
+              ),
+              const ImagesList(images: []),
+              const SizedBox(
+                height: 30,
+              ),
               Form(
                   key: formkey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Title",
+                        "Product Name",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
                         validator: (value) => Validators.titleValidator(value),
-                        decoration: getInputDecoration('Title'),
+                        decoration: getInputDecoration('Enter Product Name'),
                       ),
                       const SizedBox(
                         height: 20,
@@ -80,7 +115,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       Text(
                         "Price",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.number,
@@ -93,7 +128,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       Text(
                         "Category",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       DropdownButtonFormField(
                         items: Categories.values
@@ -111,12 +146,15 @@ class _AddCatalogState extends State<AddCatalog> {
                       Text(
                         "Description",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
+                        minLines: 3,
+                        maxLines: 5,
                         keyboardType: TextInputType.number,
                         validator: (value) => Validators.descValidator(value),
-                        decoration: getInputDecoration('Description'),
+                        decoration:
+                            getInputDecoration('Enter Product Description'),
                       ),
                       const SizedBox(
                         height: 20,
@@ -124,7 +162,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       Text(
                         "Brand",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.number,
@@ -137,7 +175,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       Text(
                         "Warranty",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.number,
@@ -152,7 +190,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       Text(
                         "Return Period",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.number,
@@ -167,7 +205,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       Text(
                         "State",
                         style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.number,
@@ -181,7 +219,7 @@ class _AddCatalogState extends State<AddCatalog> {
                       // Text(
                       //   "Box Contents",
                       //   style: GoogleFonts.inter(
-                      //       fontSize: 18, fontWeight: FontWeight.bold),
+                      //       fontSize: 18, fontWeight: FontWeight.w600),
                       // ),
                       // boxContents.isNotEmpty
                       //     ? Container(
@@ -243,31 +281,50 @@ class _ImagesListState extends State<ImagesList> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      CarouselSlider.builder(
-          itemCount: widget.images.length,
-          itemBuilder: (context, index, realIndex) =>
-              Image.asset('assets/images/default_image.png'),
-          options: CarouselOptions()),
-      Positioned(
-          bottom: 0,
-          right: 40,
-          child: Container(
-            width: 64,
-            height: 64,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color.fromARGB(255, 234, 196, 72),
-            ),
-            child: InkWell(
-              onTap: addImage,
-              child: const Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 32,
-              ),
-            ),
-          )),
-    ]);
+    return InkWell(
+      onTap: addImage,
+      child: Stack(children: [
+        widget.images.isEmpty
+            ? Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xFF335A02)),
+                    borderRadius: BorderRadius.circular(60),
+                  ),
+                  padding: const EdgeInsets.all(7),
+                  child: Image.asset(
+                    'assets/images/add_icon.png',
+                    width: 64,
+                    height: 64,
+                    scale: 0.5,
+                  ),
+                ),
+              )
+            : CarouselSlider.builder(
+                itemCount: widget.images.length,
+                itemBuilder: (context, index, realIndex) =>
+                    Image.asset('assets/images/default_image.png'),
+                options: CarouselOptions()),
+        // Positioned(
+        //     bottom: 0,
+        //     right: 40,
+        //     child: Container(
+        //       width: 64,
+        //       height: 64,
+        //       decoration: const BoxDecoration(
+        //         shape: BoxShape.circle,
+        //         color: Color.fromARGB(255, 234, 196, 72),
+        //       ),
+        //       child: InkWell(
+        //         onTap: addImage,
+        //         child: const Icon(
+        //           Icons.add,
+        //           color: Colors.white,
+        //           size: 32,
+        //         ),
+        //       ),
+        //     )),
+      ]),
+    );
   }
 }
