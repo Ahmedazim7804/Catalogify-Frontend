@@ -11,7 +11,7 @@ import "package:inno_hack/screens/login_screen.dart";
 import "package:inno_hack/screens/second_screen.dart";
 
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/add_catalog',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
