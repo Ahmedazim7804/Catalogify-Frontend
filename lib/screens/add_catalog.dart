@@ -92,9 +92,10 @@ class _AddCatalogState extends State<AddCatalog> {
           "Add",
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        leading: const Icon(
-          Icons.arrow_back,
-          color: Color(0xFF335A02),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+          color: const Color(0xFF335A02),
         ),
         centerTitle: true,
       ),
@@ -196,7 +197,6 @@ class _AddCatalogState extends State<AddCatalog> {
                       TextFormField(
                         minLines: 3,
                         maxLines: 5,
-                        keyboardType: TextInputType.number,
                         onSaved: (value) => desc = value,
                         validator: (value) => Validators.descValidator(value),
                         decoration:
@@ -212,7 +212,6 @@ class _AddCatalogState extends State<AddCatalog> {
                       ),
                       TextFormField(
                         onSaved: (value) => brand = value,
-                        keyboardType: TextInputType.number,
                         validator: (value) => Validators.brandValidator(value),
                         decoration: getInputDecoration('Brand'),
                       ),
@@ -226,7 +225,6 @@ class _AddCatalogState extends State<AddCatalog> {
                       ),
                       TextFormField(
                         onSaved: (value) => warranty = value,
-                        keyboardType: TextInputType.number,
                         validator: (value) =>
                             Validators.warrantyValidator(value),
                         decoration:
@@ -242,7 +240,6 @@ class _AddCatalogState extends State<AddCatalog> {
                       ),
                       TextFormField(
                         onSaved: (value) => returnPeriod = value,
-                        keyboardType: TextInputType.number,
                         validator: (value) =>
                             Validators.returnPeriodValidator(value),
                         decoration: getInputDecoration(
@@ -258,7 +255,6 @@ class _AddCatalogState extends State<AddCatalog> {
                       ),
                       TextFormField(
                         onSaved: (value) => state = value,
-                        keyboardType: TextInputType.number,
                         validator: (value) =>
                             Validators.locationValidator(value),
                         decoration: getInputDecoration('State'),

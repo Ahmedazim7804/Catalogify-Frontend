@@ -23,22 +23,14 @@ class _RootScaffoldState extends State<RootScaffold> {
       context.go("/home_page");
     } else if (index == 1) {
       context.go("/product_screen");
+    } else if (index == 2) {
+      context.go("/profile_screen");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
-        title: Center(
-          child: Text(
-            "Innohacks",
-            style: GoogleFonts.exo2(),
-          ),
-        ),
-      ),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,

@@ -12,6 +12,7 @@ import "package:inno_hack/screens/add_catalog.dart";
 import "package:inno_hack/screens/home_screen.dart";
 
 import "package:inno_hack/screens/login_screen.dart";
+import "package:inno_hack/screens/profile_screen.dart";
 import "package:inno_hack/screens/user_details_screen.dart";
 import "package:inno_hack/screens/products_screen.dart";
 import "package:inno_hack/screens/second_screen.dart";
@@ -22,6 +23,9 @@ final _shellNavigatorAttendanceKey =
 
 final _shellNavigatorRoomsKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellRooms');
+
+final _shellNavigatorProfileKey =
+    GlobalKey<NavigatorState>(debugLabel: 'profile');
 AuthListen authListen = AuthListen();
 
 final GoRouter router = GoRouter(
@@ -40,6 +44,7 @@ final GoRouter router = GoRouter(
       if (authListen.status == AuthenticationStatus.authenticated) {
         context.read<UserProvider>().email = authListen.userx!.email;
         context.read<UserProvider>().name = authListen.userx!.name;
+        context.read<UserProvider>().uid = authListen.userx!.fireabseId;
 
         redirectTo = '/home_page';
       } else if (authListen.status == AuthenticationStatus.unauthenticated) {
@@ -75,17 +80,24 @@ final GoRouter router = GoRouter(
                   const MaterialPage(child: ProductScreen()),
             ),
           ]),
+          StatefulShellBranch(navigatorKey: _shellNavigatorProfileKey, routes: [
+            GoRoute(
+              path: '/profile_screen',
+              pageBuilder: (context, state) =>
+                  const MaterialPage(child: ProfileScreen()),
+            ),
+          ]),
         ]),
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return RootScaffold(child: const LoginScreen());
+        return const RootScaffold(child: LoginScreen());
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'second',
           builder: (BuildContext context, GoRouterState state) {
-            return RootScaffold(child: const SecondScreen());
+            return const RootScaffold(child: SecondScreen());
           },
         ),
       ],

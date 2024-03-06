@@ -43,6 +43,7 @@ dependencies:
   flutter_bloc:
   flutter_native_splash: ^2.3.10
   firebase_storage: ^11.6.8
+  flutter_expandable_fab: ^2.0.0
   
 
 

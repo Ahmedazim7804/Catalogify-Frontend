@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HeadingText extends StatelessWidget {
-  const HeadingText({super.key, required this.text, this.size = 15});
+  const HeadingText(
+      {super.key,
+      required this.text,
+      this.size = 15,
+      this.color = Colors.black});
 
   final String text;
   final double size;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,8 @@ class HeadingText extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(4))),
       child: Text(
         text,
-        style:
-            GoogleFonts.urbanist(fontSize: size, fontWeight: FontWeight.bold),
+        style: GoogleFonts.urbanist(
+            fontSize: size, fontWeight: FontWeight.bold, color: color),
       ),
     );
   }

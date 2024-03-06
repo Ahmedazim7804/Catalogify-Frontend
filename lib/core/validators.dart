@@ -64,12 +64,8 @@ class Validators {
   }
 
   static String? locationValidator(String? value) {
-    if (value == null || int.tryParse(value) == null) {
+    if (value == null || value.isEmpty) {
       return "Null";
-    }
-
-    if (int.parse(value) < 0) {
-      return "Return Period cannot be negative";
     }
 
     return null;

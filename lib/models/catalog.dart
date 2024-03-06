@@ -31,19 +31,18 @@ class Catalog {
   void uploadCatalog() {}
 
   Future<List<String>> uploadImagesToFirebase() async {
-    print("object");
     final List<String> downloadPaths = [];
 
-    // FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
-    // final Reference refrence = firebaseStorage.ref().child('user/$userId');
+    final Reference refrence = firebaseStorage.ref().child('user/$userId');
 
-    // for (final String image in images) {
-    //   TaskSnapshot taskSnapshot = await refrence.putFile(File(image));
-    //   taskSnapshot.ref.getDownloadURL().then((downloadUrl) {
-    //     downloadPaths.add(downloadUrl);
-    //   });
-    // }
+    for (final String image in images) {
+      TaskSnapshot taskSnapshot = await refrence.putFile(File(image));
+      taskSnapshot.ref.getDownloadURL().then((downloadUrl) {
+        downloadPaths.add(downloadUrl);
+      });
+    }
 
     return downloadPaths;
   }
