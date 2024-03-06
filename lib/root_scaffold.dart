@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:go_router/go_router.dart";
-import "package:material_design_icons_flutter/material_design_icons_flutter.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:inno_hack/bloc/catalog_cubits.dart";
 
 class RootScaffold extends StatefulWidget {
   const RootScaffold({super.key, required this.child});
@@ -14,6 +15,14 @@ class RootScaffold extends StatefulWidget {
 
 class _RootScaffoldState extends State<RootScaffold> {
   int _selectedIndex = 0;
+  late final CatalogCubit catalogCubit = CatalogCubit();
+
+  @override
+  void initState() {
+    CatalogCubit();
+    // TODO: implement initState
+    super.initState();
+  }
 
   void onItemTapped(int index) {
     setState(() {
@@ -31,28 +40,35 @@ class _RootScaffoldState extends State<RootScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-      backgroundColor: Colors.teal,
-      foregroundColor: Colors.white,
-      title: Center(
-        child: Text(
-          "InnoHacks",
-          style: GoogleFonts.exo2(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => catalogCubit,
         ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.teal,
+          foregroundColor: Colors.white,
+          title: Center(
+            child: Text(
+              "InnoHacks",
+              style: GoogleFonts.exo2(),
+            ),
+          ),
+        ),
+        body: widget.child,
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: onItemTapped,
+            items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.star), label: "LeaderBoard"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle), label: "Profile"),
+            ]),
       ),
-    ),
-      body: widget.child,
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: onItemTapped,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.star), label: "LeaderBoard"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle), label: "Profile"),
-          ]),
     );
   }
 }

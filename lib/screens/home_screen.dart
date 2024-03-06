@@ -1,10 +1,13 @@
 import "package:flutter/material.dart";
 import "package:flutter_expandable_fab/flutter_expandable_fab.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:inno_hack/bloc/catalog_cubits.dart";
 import "package:inno_hack/screens/widgets/heading_text.dart";
 import "package:inno_hack/screens/widgets/product_item.dart";
 
 import "package:go_router/go_router.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:lottie/lottie.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -118,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomSheet: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         height: 450,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -126,136 +129,162 @@ class _HomeScreenState extends State<HomeScreen> {
             topRight: Radius.circular(20),
           ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // const HeadingText(
-              //   text: "Add Products",
-              //   size: 18,
-              // ),
-              // const SizedBox(
-              //   height: 30,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Container(
-              //       height: 100,
-              //       width: 100,
-              //       decoration: BoxDecoration(
-              //         border: Border.all(
-              //           color: Colors.black,
-              //           width: 1.0,
-              //         ),
-              //         borderRadius: BorderRadius.circular(20),
-              //       ),
-              //       child: ElevatedButton(
-              //         onPressed: () => context.push('/add_catalog'),
-              //         style: ButtonStyle(
-              //           shape:
-              //               MaterialStateProperty.all<RoundedRectangleBorder>(
-              //             RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(
-              //                   20.0), // Adjust the border radius as needed
-              //             ),
-              //           ),
-              //         ),
-              //         child: Column(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             children: [
-              //               const Icon(Icons.add),
-              //               Text(
-              //                 "Add",
-              //                 style: kNormalTextStyle,
-              //               )
-              //             ]),
-              //       ),
-              //     ),
-              //     Container(
-              //       height: 100,
-              //       width: 100,
-              //       decoration: BoxDecoration(
-              //         border: Border.all(
-              //           color: Colors.black,
-              //           width: 1.0,
-              //         ),
-              //         borderRadius: BorderRadius.circular(20),
-              //       ),
-              //       child: ElevatedButton(
-              //         onPressed: () => context.push('/add_catalog'),
-              //         style: ButtonStyle(
-              //           shape:
-              //               MaterialStateProperty.all<RoundedRectangleBorder>(
-              //             RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(
-              //                   20.0), // Adjust the border radius as needed
-              //             ),
-              //           ),
-              //         ),
-              //         child: Column(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             children: [
-              //               const Icon(Icons.add),
-              //               Text(
-              //                 "Add",
-              //                 style: kNormalTextStyle,
-              //               )
-              //             ]),
-              //       ),
-              //     ),
-              //     Container(
-              //       height: 100,
-              //       width: 100,
-              //       decoration: BoxDecoration(
-              //         border: Border.all(
-              //           color: Colors.black,
-              //           width: 1.0,
-              //         ),
-              //         borderRadius: BorderRadius.circular(20),
-              //       ),
-              //       child: ElevatedButton(
-              //         onPressed: () => context.push('/add_catalog'),
-              //         style: ButtonStyle(
-              //           shape:
-              //               MaterialStateProperty.all<RoundedRectangleBorder>(
-              //             RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(
-              //                   20.0), // Adjust the border radius as needed
-              //             ),
-              //           ),
-              //         ),
-              //         child: Column(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             children: [
-              //               const Icon(Icons.add),
-              //               Text(
-              //                 "Add",
-              //                 style: kNormalTextStyle,
-              //               )
-              //             ]),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              const SizedBox(
-                height: 20,
+        child: BlocBuilder<CatalogCubit, CatalogState>(
+          builder: (context, state) {
+            // if (state is CatalogLoading) {
+            //   return const Center(
+            //       child: CircularProgressIndicator(
+            //     color: Colors.teal,
+            //   ));
+            // }
+
+            if (state is CatalogLoading) {
+              return Column(
+                children: [
+                  LottieBuilder.asset(
+                    'assets/lottie/no_catalog.json',
+                  ),
+                  Text(
+                    "No Product Available",
+                    style: GoogleFonts.inter(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  )
+                ],
+              );
+            }
+
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // const HeadingText(
+                  //   text: "Add Products",
+                  //   size: 18,
+                  // ),
+                  // const SizedBox(
+                  //   height: 30,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Container(
+                  //       height: 100,
+                  //       width: 100,
+                  //       decoration: BoxDecoration(
+                  //         border: Border.all(
+                  //           color: Colors.black,
+                  //           width: 1.0,
+                  //         ),
+                  //         borderRadius: BorderRadius.circular(20),
+                  //       ),
+                  //       child: ElevatedButton(
+                  //         onPressed: () => context.push('/add_catalog'),
+                  //         style: ButtonStyle(
+                  //           shape:
+                  //               MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //             RoundedRectangleBorder(
+                  //               borderRadius: BorderRadius.circular(
+                  //                   20.0), // Adjust the border radius as needed
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         child: Column(
+                  //             mainAxisAlignment: MainAxisAlignment.center,
+                  //             children: [
+                  //               const Icon(Icons.add),
+                  //               Text(
+                  //                 "Add",
+                  //                 style: kNormalTextStyle,
+                  //               )
+                  //             ]),
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: 100,
+                  //       width: 100,
+                  //       decoration: BoxDecoration(
+                  //         border: Border.all(
+                  //           color: Colors.black,
+                  //           width: 1.0,
+                  //         ),
+                  //         borderRadius: BorderRadius.circular(20),
+                  //       ),
+                  //       child: ElevatedButton(
+                  //         onPressed: () => context.push('/add_catalog'),
+                  //         style: ButtonStyle(
+                  //           shape:
+                  //               MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //             RoundedRectangleBorder(
+                  //               borderRadius: BorderRadius.circular(
+                  //                   20.0), // Adjust the border radius as needed
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         child: Column(
+                  //             mainAxisAlignment: MainAxisAlignment.center,
+                  //             children: [
+                  //               const Icon(Icons.add),
+                  //               Text(
+                  //                 "Add",
+                  //                 style: kNormalTextStyle,
+                  //               )
+                  //             ]),
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       height: 100,
+                  //       width: 100,
+                  //       decoration: BoxDecoration(
+                  //         border: Border.all(
+                  //           color: Colors.black,
+                  //           width: 1.0,
+                  //         ),
+                  //         borderRadius: BorderRadius.circular(20),
+                  //       ),
+                  //       child: ElevatedButton(
+                  //         onPressed: () => context.push('/add_catalog'),
+                  //         style: ButtonStyle(
+                  //           shape:
+                  //               MaterialStateProperty.all<RoundedRectangleBorder>(
+                  //             RoundedRectangleBorder(
+                  //               borderRadius: BorderRadius.circular(
+                  //                   20.0), // Adjust the border radius as needed
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         child: Column(
+                  //             mainAxisAlignment: MainAxisAlignment.center,
+                  //             children: [
+                  //               const Icon(Icons.add),
+                  //               Text(
+                  //                 "Add",
+                  //                 style: kNormalTextStyle,
+                  //               )
+                  //             ]),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const HeadingText(
+                    text: "Your Products",
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductItem(index: index);
+                      }),
+                ],
               ),
-              const HeadingText(
-                text: "Your Products",
-                color: Colors.white,
-                size: 18,
-              ),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: 10,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductItem(index: index);
-                  }),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
