@@ -40,16 +40,6 @@ class _RootScaffoldState extends State<RootScaffold> {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-          title: Center(
-            child: Text(
-              "InnoHacks",
-              style: GoogleFonts.exo2(),
-            ),
-          ),
-        ),
         body: widget.child,
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: _selectedIndex,
