@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import 'package:inno_hack/screens/widgets/overlay_widget.dart';
 import "package:inno_hack/utilities/constants.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,11 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
         // context.read<UidProvider>().uid = userCredential.user!.uid;
 
         if (userCredential.additionalUserInfo!.isNewUser) {
-          // context.go(
-          // '/screens/authentication/other',
-          // );
+          context.go(
+            '/product_screen',
+          );
           overlayPortalController.hide();
         } else {
+          context.go(
+            '/product_screen',
+          );
           overlayPortalController.hide();
         }
       });
@@ -54,67 +59,69 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                child: const Image(
-                  image: NetworkImage(
-                      "https://th.bing.com/th/id/OIP.tMHR6LMDGRzKQ-382IoefAHaEK?rs=1&pid=ImgDetMain"),
-                ),
-              ),
-              Container(
-                child: Text("Let's Get Started!",
-                    style: GoogleFonts.inter(
-                        fontWeight: FontWeight.w900, fontSize: 35)),
-              ),
-              Container(
-                padding: const EdgeInsets.only(left: 12, right: 12),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "dsfldfjdslksjdfldsjfsldfjdslkfdldsjfsdlddlf lsdkjf dlsfj dlfjds flfj sfjlfs flf ldsjf dsjf lds fdsljfdlfj ds",
-                    style: GoogleFonts.inter(fontSize: 15),
-                    textAlign: TextAlign.center,
+      child: OverlayPortal(
+        controller: overlayPortalController,
+        overlayChildBuilder: overlayChildBuilder,
+        child: Scaffold(
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: const Image(
+                    image: NetworkImage(
+                        "https://th.bing.com/th/id/OIP.tMHR6LMDGRzKQ-382IoefAHaEK?rs=1&pid=ImgDetMain"),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: ListTile(
-                  onTap: signInWithGoogle,
-                  tileColor: Colors.grey[200],
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(32))),
-                  selectedTileColor: Colors.orange[100],
-                  leading: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Image(
-                        width: 60,
-                        image: NetworkImage(
-                            "https://clipground.com/images/google-logo-clipart-transparent.png")),
-                  ),
-                  title: Center(
-                      child: Text("Continue With Google",
-                          style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w600, fontSize: 17))),
+                Container(
+                  child: Text("Let's Get Started!",
+                      style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w900, fontSize: 35)),
                 ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Privacy Policy",
-                      style: kNormalTextStyle,
+                Container(
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "dsfldfjdslksjdfldsjfsldfjdslkfdldsjfsdlddlf lsdkjf dlsfj dlfjds flfj sfjlfs flf ldsjf dsjf lds fdsljfdlfj ds",
+                      style: GoogleFonts.inter(fontSize: 15),
+                      textAlign: TextAlign.center,
                     ),
-                    const Text("Terms of Services")
-                  ],
+                  ),
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ListTile(
+                    onTap: signInWithGoogle,
+                    tileColor: Colors.grey[200],
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(32))),
+                    selectedTileColor: Colors.orange[100],
+                    leading: Image.asset(
+                      'assets/images/google.png',
+                      height: 32,
+                      width: 32,
+                    ),
+                    title: Center(
+                        child: Text("Continue With Google",
+                            style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600, fontSize: 17))),
+                  ),
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "Privacy Policy",
+                        style: kNormalTextStyle,
+                      ),
+                      const Text("Terms of Services")
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
