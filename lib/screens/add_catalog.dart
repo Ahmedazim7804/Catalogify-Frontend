@@ -1,7 +1,8 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inno_hack/core/constants.dart';
 import 'package:inno_hack/core/validators.dart';
-import 'package:inno_hack/screens/widgets/text_edit_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class AddCatalog extends StatefulWidget {
@@ -13,6 +14,7 @@ class AddCatalog extends StatefulWidget {
 
 class _AddCatalogState extends State<AddCatalog> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final List<String> boxContents = [];
 
   InputDecoration getInputDecoration(String text) {
     return InputDecoration(
@@ -43,7 +45,6 @@ class _AddCatalogState extends State<AddCatalog> {
 
   void onSave() {
     final bool dataIsValid = formkey.currentState!.validate();
-    print(dataIsValid);
   }
 
   @override
@@ -81,10 +82,11 @@ class _AddCatalogState extends State<AddCatalog> {
                         style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Price",
-                          errorText: "Error"),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        validator: (value) => Validators.priceValidator(value),
+                        decoration: getInputDecoration('Title'),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -93,10 +95,16 @@ class _AddCatalogState extends State<AddCatalog> {
                         style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Title",
-                          errorText: "Error"),
+                      DropdownButtonFormField(
+                        items: Categories.values
+                            .map((item) => DropdownMenuItem<Categories>(
+                                  value: item,
+                                  child: Text(item.value),
+                                ))
+                            .toList(),
+                        onChanged: (Categories? category) {},
+                        decoration: getInputDecoration(''),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -105,10 +113,11 @@ class _AddCatalogState extends State<AddCatalog> {
                         style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Description",
-                          errorText: "Error"),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        validator: (value) => Validators.descValidator(value),
+                        decoration: getInputDecoration('Description'),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -117,10 +126,11 @@ class _AddCatalogState extends State<AddCatalog> {
                         style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Brand",
-                          errorText: "Error"),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        validator: (value) => Validators.brandValidator(value),
+                        decoration: getInputDecoration('Brand'),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -129,10 +139,13 @@ class _AddCatalogState extends State<AddCatalog> {
                         style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Warranty",
-                          errorText: "Error"),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        validator: (value) =>
+                            Validators.warrantyValidator(value),
+                        decoration:
+                            getInputDecoration('in Months (0, if no warranty)'),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -141,46 +154,68 @@ class _AddCatalogState extends State<AddCatalog> {
                         style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Warranty",
-                          errorText: "Error"),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        validator: (value) =>
+                            Validators.returnPeriodValidator(value),
+                        decoration: getInputDecoration(
+                            'in Days (0, if no return period)'),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
                       Text(
-                        "Location",
+                        "State",
                         style: GoogleFonts.inter(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Warranty",
-                          errorText: "Error"),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        validator: (value) =>
+                            Validators.locationValidator(value),
+                        decoration: getInputDecoration('State'),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "Box Contents",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Warranty",
-                          errorText: "Error"),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Categories",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      TextEditWidget(
-                          onChanged: (String) {},
-                          labelText: "Warranty",
-                          errorText: "Error"),
+                      // Text(
+                      //   "Box Contents",
+                      //   style: GoogleFonts.inter(
+                      //       fontSize: 18, fontWeight: FontWeight.bold),
+                      // ),
+                      // boxContents.isNotEmpty
+                      //     ? Container(
+                      //         child: ListView.builder(
+                      //           shrinkWrap: true,
+                      //           itemCount: boxContents.length,
+                      //           itemBuilder: (context, index) => TextFormField(
+                      //             decoration:
+                      //                 getInputDecoration("Box Item $index"),
+                      //             onSaved: (value) {
+                      //               if (value != null) {
+                      //                 boxContents[index] = value;
+                      //               }
+                      //             },
+                      //           ),
+                      //         ),
+                      //       )
+                      //     : Row(
+                      //         children: [
+                      //           Expanded(
+                      //             child: TextFormField(
+                      //               decoration:
+                      //                   getInputDecoration("Box Item 1"),
+                      //             ),
+                      //           ),
+                      //           IconButton(
+                      //               onPressed: () {
+                      //                 setState(() {
+                      //                   boxContents.add('');
+                      //                 });
+                      //               },
+                      //               icon: const Icon(Icons.add))
+                      //         ],
+                      //       )
                     ],
                   ))
             ],
@@ -201,12 +236,38 @@ class ImagesList extends StatefulWidget {
 }
 
 class _ImagesListState extends State<ImagesList> {
+  void addImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider.builder(
-        itemCount: widget.images.length,
-        itemBuilder: (context, index, realIndex) =>
-            Image.asset('assets/images/default_image.png'),
-        options: CarouselOptions());
+    return Stack(children: [
+      CarouselSlider.builder(
+          itemCount: widget.images.length,
+          itemBuilder: (context, index, realIndex) =>
+              Image.asset('assets/images/default_image.png'),
+          options: CarouselOptions()),
+      Positioned(
+          bottom: 0,
+          right: 40,
+          child: Container(
+            width: 64,
+            height: 64,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(255, 234, 196, 72),
+            ),
+            child: InkWell(
+              onTap: addImage,
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 32,
+              ),
+            ),
+          )),
+    ]);
   }
 }
