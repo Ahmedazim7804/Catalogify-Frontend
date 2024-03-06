@@ -5,17 +5,18 @@ import "package:inno_hack/utilities/constants.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class LeaderBoardScreen extends StatefulWidget {
-
-  LeaderBoardScreen({super.key,required this.title,
-    required this.price,
-    required this.category,
-    required this.description,
-    required this.brand,
-    required this.warranty,
-    required this.returnPeriod,
-    required this.state,
-    required this.userId,
-    required this.images});
+  LeaderBoardScreen(
+      {super.key,
+      required this.title,
+      required this.price,
+      required this.category,
+      required this.description,
+      required this.brand,
+      required this.warranty,
+      required this.returnPeriod,
+      required this.state,
+      required this.userId,
+      required this.images});
   final String title;
   final String userId;
   final int price;
@@ -34,21 +35,11 @@ class LeaderBoardScreen extends StatefulWidget {
 class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
   void _showsingleproduct() {
     showModalBottomSheet(
-
         useSafeArea: true,
         context: context,
         isScrollControlled: true,
-        builder: (context) => SingleProduct(
-            title:widget.title,
-            price: widget.price,
-            category: widget.category,
-            description: widget.description,
-            brand: widget.brand,
-            warranty: widget.warranty,
-            returnPeriod: widget.returnPeriod,
-            state: widget.state,
-            userId: widget.state,
-            images: widget.images));
+        builder: (context) => const Text('data'));
+    // (context) => SingleProduct(title: 'title', price: 20, category: Categories.books, description: "description is this khushal bhasin", brand: "brand", warranty: 20, returnPeriod: 20, state: "state", userId: "userId", images: []))
   }
 
   @override
@@ -75,14 +66,14 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
                         child: Image.network(
                             "https://th.bing.com/th/id/OIP.eGHa3HgHxIlTHmcvKNDs7AHaGe?rs=1&pid=ImgDetMain"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Column(
                         children: [
                           Text(widget.title, style: kLargeTextStyle),
                           Text(
-                            widget.description.substring(0, 15) + '...',
+                            '${widget.description.substring(0, 15)}...',
                             style: kNormalTextStyle,
                           )
                         ],
@@ -93,7 +84,7 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
+                      SizedBox(
                         width: 80,
                         height: 20,
                         child: RatingBar.builder(
@@ -103,7 +94,7 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
                           direction: Axis.horizontal,
                           allowHalfRating: true,
                           itemCount: 5,
-                          itemBuilder: (context, _) => Icon(
+                          itemBuilder: (context, _) => const Icon(
                             Icons.star,
                             color: Colors.amber,
                             size: 2,
@@ -113,7 +104,7 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
                           },
                         ),
                       ),
-                      Text("1.6k👍")
+                      const Text("1.6k👍")
                     ],
                   ),
                 ],

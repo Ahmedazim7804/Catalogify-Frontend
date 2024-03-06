@@ -15,11 +15,11 @@ class Catalog {
       required this.warranty,
       required this.returnPeriod,
       required this.state,
-      required this.userId,
+      this.userId,
       required this.images});
 
   final String title;
-  final String userId;
+  final String? userId;
   final int price;
   final Categories category;
   final String description;
@@ -27,7 +27,7 @@ class Catalog {
   final int warranty;
   final int returnPeriod;
   final String state;
-  List<String> images;
+  List<dynamic> images;
 
   void uploadCatalog() async {
     images = await uploadImagesToFirebase();

@@ -29,7 +29,8 @@ class _ProductScreenState extends State<ProductScreen> {
             shrinkWrap: true,
             itemCount: 10,
             itemBuilder: (BuildContext context, int index) {
-              return ProductItem(index: index);
+              return const Placeholder();
+              // return const ProductItem(catalog: Cata,);
             }),
       ),
     );

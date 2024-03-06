@@ -9,4 +9,11 @@ enum Categories {
 
   const Categories(this.value);
   final String value;
+
+  static Categories fromValue(String value) {
+    return Categories.values
+        .where((element) => element.value == value)
+        .toList()
+        .first;
+  }
 }

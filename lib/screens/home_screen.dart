@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_expandable_fab/flutter_expandable_fab.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:inno_hack/bloc/catalog_cubits.dart";
+import "package:inno_hack/models/catalog.dart";
 import "package:inno_hack/screens/widgets/heading_text.dart";
 import "package:inno_hack/screens/widgets/product_item.dart";
 
@@ -20,8 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
         openButtonBuilder: RotateFloatingActionButtonBuilder(
@@ -131,14 +130,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: BlocBuilder<CatalogCubit, CatalogState>(
           builder: (context, state) {
-            // if (state is CatalogLoading) {
-            //   return const Center(
-            //       child: CircularProgressIndicator(
-            //     color: Colors.teal,
-            //   ));
-            // }
-
             if (state is CatalogLoading) {
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: Colors.teal,
+              ));
+            }
+
+            if (state is CatalogEmpty) {
               return Column(
                 children: [
                   LottieBuilder.asset(
@@ -153,136 +152,38 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
 
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // const HeadingText(
-                  //   text: "Add Products",
-                  //   size: 18,
-                  // ),
-                  // const SizedBox(
-                  //   height: 30,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Container(
-                  //       height: 100,
-                  //       width: 100,
-                  //       decoration: BoxDecoration(
-                  //         border: Border.all(
-                  //           color: Colors.black,
-                  //           width: 1.0,
-                  //         ),
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       ),
-                  //       child: ElevatedButton(
-                  //         onPressed: () => context.push('/add_catalog'),
-                  //         style: ButtonStyle(
-                  //           shape:
-                  //               MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //             RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(
-                  //                   20.0), // Adjust the border radius as needed
-                  //             ),
-                  //           ),
-                  //         ),
-                  //         child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               const Icon(Icons.add),
-                  //               Text(
-                  //                 "Add",
-                  //                 style: kNormalTextStyle,
-                  //               )
-                  //             ]),
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       height: 100,
-                  //       width: 100,
-                  //       decoration: BoxDecoration(
-                  //         border: Border.all(
-                  //           color: Colors.black,
-                  //           width: 1.0,
-                  //         ),
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       ),
-                  //       child: ElevatedButton(
-                  //         onPressed: () => context.push('/add_catalog'),
-                  //         style: ButtonStyle(
-                  //           shape:
-                  //               MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //             RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(
-                  //                   20.0), // Adjust the border radius as needed
-                  //             ),
-                  //           ),
-                  //         ),
-                  //         child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               const Icon(Icons.add),
-                  //               Text(
-                  //                 "Add",
-                  //                 style: kNormalTextStyle,
-                  //               )
-                  //             ]),
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       height: 100,
-                  //       width: 100,
-                  //       decoration: BoxDecoration(
-                  //         border: Border.all(
-                  //           color: Colors.black,
-                  //           width: 1.0,
-                  //         ),
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       ),
-                  //       child: ElevatedButton(
-                  //         onPressed: () => context.push('/add_catalog'),
-                  //         style: ButtonStyle(
-                  //           shape:
-                  //               MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //             RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(
-                  //                   20.0), // Adjust the border radius as needed
-                  //             ),
-                  //           ),
-                  //         ),
-                  //         child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               const Icon(Icons.add),
-                  //               Text(
-                  //                 "Add",
-                  //                 style: kNormalTextStyle,
-                  //               )
-                  //             ]),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const HeadingText(
-                    text: "Your Products",
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: 10,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ProductItem(index: index);
-                      }),
-                ],
-              ),
+            if (state is CatalogLoaded) {
+              List<Catalog> catalogs = context.read<CatalogCubit>().catalogs;
+
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const HeadingText(
+                      text: "Your Products",
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: catalogs.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ProductItem(
+                            catalog: catalogs[index],
+                          );
+                        }),
+                  ],
+                ),
+              );
+            }
+
+            return const CircularProgressIndicator(
+              color: Colors.teal,
             );
           },
         ),

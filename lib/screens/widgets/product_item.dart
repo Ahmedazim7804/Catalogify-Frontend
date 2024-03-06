@@ -1,40 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:inno_hack/core/constants.dart';
+import 'package:inno_hack/models/catalog.dart';
 import 'package:inno_hack/screens/widgets/SingleProduct.dart';
 
 import 'package:inno_hack/utilities/constants.dart';
 
 class ProductItem extends StatefulWidget {
-  final int index;
-
-  const ProductItem({Key? key, required this.index}) : super(key: key);
+  const ProductItem({Key? key, required this.catalog}) : super(key: key);
+  final Catalog catalog;
 
   @override
-  State<ProductItem> createState() => _ProductItemState(index: index);
+  State<ProductItem> createState() => _ProductItemState();
 }
 
 class _ProductItemState extends State<ProductItem> {
-  final int index;
-
   void _showsingleproduct() {
     showModalBottomSheet(
         useSafeArea: true,
         context: context,
         isScrollControlled: true,
-        builder: (context) => SingleProduct(
-            title: 'title',
-            price: 20,
-            category: Categories.books,
-            description: "description is this khushal bhasin",
-            brand: "brand",
-            warranty: 20,
-            returnPeriod: 20,
-            state: "state",
-            userId: "userId",
-            images: const []));
+        builder: (context) => SingleProduct(catalog: widget.catalog));
   }
-
-  _ProductItemState({required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +69,16 @@ class _ProductItemState extends State<ProductItem> {
             child: Column(
               children: [
                 ListTile(
-                  leading: Image.network(
-                      "https://th.bing.com/th/id/OIP.SGe24T2pZb0yX3NYSWydDQHaJg?rs=1&pid=ImgDetMain"),
+                  leading: Image.network(widget.catalog.images.first),
                   title: Text(
-                    'Cotton Black TShirt For Men',
+                    widget.catalog.title,
                     overflow: TextOverflow.ellipsis,
                     style: kLargeTextStyle,
                   ),
-                  subtitle: const Text(
-                    "\$200",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  subtitle: Text(
+                    "₹${widget.catalog.price}",
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   trailing: IconButton(
                     onPressed: () {},

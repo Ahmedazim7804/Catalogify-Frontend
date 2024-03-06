@@ -17,13 +17,6 @@ class _RootScaffoldState extends State<RootScaffold> {
   int _selectedIndex = 0;
   late final CatalogCubit catalogCubit = CatalogCubit();
 
-  @override
-  void initState() {
-    CatalogCubit();
-    // TODO: implement initState
-    super.initState();
-  }
-
   void onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
