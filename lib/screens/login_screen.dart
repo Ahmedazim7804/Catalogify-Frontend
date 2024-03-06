@@ -15,16 +15,16 @@ class _LoginScreenState extends State<LoginScreen> {
   late final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   bool dialogShowing = false;
   final OverlayPortalController overlayPortalController =
-  OverlayPortalController();
+      OverlayPortalController();
 
   void signInWithGoogle() async {
     overlayPortalController.show();
     try {
       final GoogleSignInAccount? googleSignInAccount =
-      await GoogleSignIn().signIn();
+          await GoogleSignIn().signIn();
 
       final GoogleSignInAuthentication? googleAuth =
-      await googleSignInAccount?.authentication;
+          await googleSignInAccount?.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
@@ -34,12 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
       FirebaseAuth.instance
           .signInWithCredential(credential)
           .then((userCredential) {
-        context.read<UidProvider>().uid = userCredential.user!.uid;
+        // context.read<UidProvider>().uid = userCredential.user!.uid;
 
         if (userCredential.additionalUserInfo!.isNewUser) {
-          context.go(
-            '/screens/authentication/other',
-          );
+          // context.go(
+          // '/screens/authentication/other',
+          // );
           overlayPortalController.hide();
         } else {
           overlayPortalController.hide();
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Image(
+                child: const Image(
                   image: NetworkImage(
                       "https://th.bing.com/th/id/OIP.tMHR6LMDGRzKQ-382IoefAHaEK?rs=1&pid=ImgDetMain"),
                 ),
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w900, fontSize: 35)),
               ),
               Container(
-                padding: EdgeInsets.only(left: 12, right: 12),
+                padding: const EdgeInsets.only(left: 12, right: 12),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -86,26 +86,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ListTile(
                   onTap: signInWithGoogle,
                   tileColor: Colors.grey[200],
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(  Radius.circular(32))),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(32))),
                   selectedTileColor: Colors.orange[100],
-
-
-                  leading: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  leading: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Image(
-                      width: 60,
-                      image: NetworkImage("https://clipground.com/images/google-logo-clipart-transparent.png")
-                    ),
+                        width: 60,
+                        image: NetworkImage(
+                            "https://clipground.com/images/google-logo-clipart-transparent.png")),
                   ),
-                  title: Center(child: Text("Continue With Google", style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 17))),
+                  title: Center(
+                      child: Text("Continue With Google",
+                          style: GoogleFonts.inter(
+                              fontWeight: FontWeight.w600, fontSize: 17))),
                 ),
               ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                      Text("Privacy Policy", style: kNormalTextStyle,),
-                    Text("Terms of Services")
+                    Text(
+                      "Privacy Policy",
+                      style: kNormalTextStyle,
+                    ),
+                    const Text("Terms of Services")
                   ],
                 ),
               )
