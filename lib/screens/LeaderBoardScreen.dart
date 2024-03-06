@@ -5,7 +5,27 @@ import "package:inno_hack/utilities/constants.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class LeaderBoardScreen extends StatefulWidget {
-  const LeaderBoardScreen({super.key});
+
+  LeaderBoardScreen({super.key,required this.title,
+    required this.price,
+    required this.category,
+    required this.description,
+    required this.brand,
+    required this.warranty,
+    required this.returnPeriod,
+    required this.state,
+    required this.userId,
+    required this.images});
+  final String title;
+  final String userId;
+  final int price;
+  final Categories category;
+  final String description;
+  final String brand;
+  final int warranty;
+  final int returnPeriod;
+  final String state;
+  List<String> images;
 
   @override
   State<LeaderBoardScreen> createState() => _LeaderBoardScreenState();
@@ -14,11 +34,23 @@ class LeaderBoardScreen extends StatefulWidget {
 class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
   void _showsingleproduct() {
     showModalBottomSheet(
+
         useSafeArea: true,
         context: context,
         isScrollControlled: true,
-        builder: (context) => SingleProduct(title: 'title', price: 20, category: Categories.books, description: "description is this khushal bhasin", brand: "brand", warranty: 20, returnPeriod: 20, state: "state", userId: "userId", images: []));
+        builder: (context) => SingleProduct(
+            title:widget.title,
+            price: widget.price,
+            category: widget.category,
+            description: widget.description,
+            brand: widget.brand,
+            warranty: widget.warranty,
+            returnPeriod: widget.returnPeriod,
+            state: widget.state,
+            userId: widget.state,
+            images: widget.images));
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +58,7 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
         itemCount: 20, // Number of items in the list
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: (){
+            onTap: () {
               _showsingleproduct();
             },
             child: Card(
@@ -43,12 +75,14 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
                         child: Image.network(
                             "https://th.bing.com/th/id/OIP.eGHa3HgHxIlTHmcvKNDs7AHaGe?rs=1&pid=ImgDetMain"),
                       ),
-
+                      SizedBox(
+                        width: 10,
+                      ),
                       Column(
                         children: [
-                          Text("This is title", style: kLargeTextStyle),
+                          Text(widget.title, style: kLargeTextStyle),
                           Text(
-                            "this is description",
+                            widget.description.substring(0, 15) + '...',
                             style: kNormalTextStyle,
                           )
                         ],

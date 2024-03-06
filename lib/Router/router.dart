@@ -5,6 +5,7 @@ import "package:go_router/go_router.dart";
 
 import "package:flutter/material.dart";
 import "package:inno_hack/Router/auth_listenable.dart";
+import "package:inno_hack/core/constants.dart";
 import "package:inno_hack/provider/user_provider.dart";
 import "package:inno_hack/root_scaffold.dart";
 import "package:inno_hack/screens/LeaderBoardScreen.dart";
@@ -78,7 +79,16 @@ final GoRouter router = GoRouter(
             GoRoute(
               path: '/leaderboard_screen',
               pageBuilder: (context, state) =>
-                  const MaterialPage(child: LeaderBoardScreen()),
+                   MaterialPage(child: LeaderBoardScreen( title: 'title',
+                      price: 20,
+                      category: Categories.books,
+                      description: "description is this khushal bhasin",
+                      brand: "brand",
+                      warranty: 20,
+                      returnPeriod: 20,
+                      state: "state",
+                      userId: "userId",
+                      images: const [])),
             ),
           ]),
           StatefulShellBranch(navigatorKey: _shellNavigatorProfileKey, routes: [
