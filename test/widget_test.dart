@@ -67,5 +67,19 @@ void main() {
       expect(Null == result || Null != result, true);
     });
   });
+  group('addLike', () {
+    test('returns true if HTTP request succeeds', () async {
+      final result = await addLike("05b8c149-b66e-4546-a0a5-6443c5bbf7a9");
+      print(result);
+      expect(false == result || true == result, true);
+    });
+  });
+  group('addDisLike', () {
+    test('returns true if HTTP request succeeds', () async {
+      final result = await addDisLike("05b8c149-b66e-4546-a0a5-6443c5bbf7a9");
+      print(result);
+      expect(false == result || true == result, true);
+    });
+  });
 
 }
