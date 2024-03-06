@@ -111,6 +111,5 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) =>
           const MaterialPage(child: OthersDetailScreen()),
     ),
-
   ],
 );
