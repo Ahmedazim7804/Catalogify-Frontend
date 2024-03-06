@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'dart:ffi';
+import 'lib/models/catalog.dart';
 import "package:http/http.dart" as http;
 
 import 'base_endpoints.dart';
@@ -95,6 +96,30 @@ Future<bool> updateUser(String name, String phone, String email) async {
   Map<String, String> header = await headers();
   final response =
       await http.post(uri, headers: header, body: jsonEncode(requestData));
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    print(response.body);
+    return false;
+  }
+}
+
+Future<bool> createPost(Catalog catalog) async {
+  final Uri uri = Uri.parse('${getBaseURL()}/user/new-post/');
+  final requestData = {
+    "title": catalog.title,
+    "cost": catalog.price,
+    "category": catalog.category.value,
+    "description": catalog.description,
+    "brand": catalog.brand,
+    "warranty_months": catalog.warranty,
+    "return_days": catalog.returnPeriod,
+    "seller_location": catalog.state,
+    "images": catalog.images,
+    "in_box": Null
+  };
+  Map<String, String> header = await headers();
+  final response = await http.post(uri, headers: header, body: jsonEncode(requestData));
   if (response.statusCode == 200) {
     return true;
   } else {
