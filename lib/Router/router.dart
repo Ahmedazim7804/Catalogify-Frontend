@@ -8,10 +8,11 @@ import "package:inno_hack/screens/add_catalog.dart";
 
 import "package:inno_hack/screens/login_screen.dart";
 
+import "package:inno_hack/screens/products_screen.dart";
 import "package:inno_hack/screens/second_screen.dart";
 
 final GoRouter router = GoRouter(
-  initialLocation: '/add_catalog',
+  initialLocation: '/product_screen',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -30,6 +31,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/add_catalog',
       builder: (context, state) => const AddCatalog(),
+    )  ,
+    GoRoute(
+      path: '/product_screen',
+      builder: (context, state) => const RootScaffold(child: ProductScreen()),
     )
   ],
 );
