@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inno_hack/provider/user_provider.dart';
 import 'package:inno_hack/screens/widgets/overlay_widget.dart';
@@ -37,6 +38,7 @@ class _OthersDetailScreenState extends State<OthersDetailScreen> {
     if (inputsAreValid) {
       context.read<UserProvider>().name = nameController.text;
       await context.read<UserProvider>().createUser();
+      context.go('/product_screen');
     }
   }
 
