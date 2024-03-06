@@ -38,14 +38,13 @@ class SingleProduct extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 64,
-              width: 64,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  border: Border.all(color: Colors.black),
-                  color: const Color.fromARGB(255, 226, 181, 31)),
-              child: Image.network("")
-            ),
+                height: 64,
+                width: 64,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(32),
+                    border: Border.all(color: Colors.black),
+                    color: const Color.fromARGB(255, 226, 181, 31)),
+                child: Image.network("")),
             const SizedBox(
               height: 15,
             ),
@@ -110,7 +109,7 @@ class SingleProduct extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500)),
                         Text(
-                          "$returnPeriod"+ " days",
+                          "$returnPeriod" + " days",
                           style: GoogleFonts.urbanist(
                               color: const Color(
                                 0xFF424242,
@@ -129,7 +128,7 @@ class SingleProduct extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500)),
                         Text(
-                          "$warranty"+ "years",
+                          "$warranty" + "years",
                           style: GoogleFonts.urbanist(
                               color: const Color(
                                 0xFF424242,
@@ -148,8 +147,7 @@ class SingleProduct extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500)),
                         Text(
-                          description.toString().substring(0,20),
-
+                          description.toString().substring(0, 20),
                           style: GoogleFonts.urbanist(
                               color: const Color(
                                 0xFF424242,
@@ -178,7 +176,6 @@ class SingleProduct extends StatelessWidget {
                         )
                       ],
                     ),
-
                   ],
                 ),
               ),
