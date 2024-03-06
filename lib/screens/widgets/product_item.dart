@@ -23,69 +23,43 @@ class _ProductItemState extends State<ProductItem> {
     return Card(
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
-      color: Colors.teal.shade50,
+      color: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.black, width: 1.0),
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       elevation: 5,
-      child: ExpansionTile(
-        shape: const ContinuousRectangleBorder(
-            side: BorderSide(width: 0, color: Colors.transparent)),
-        tilePadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 0),
-        leading: const CircleAvatar(
-          radius: 40,
-          backgroundImage: NetworkImage(
-              "https://img.freepik.com/free-psd/isolated-black-t-shirt-front_125540-1167.jpg?w=1060&t=st=1709720975~exp=1709721575~hmac=1693787fa17485df9d7da729102d8da3028b62bee09d9c6ececfe8bc8cf15060"),
-        ),
-        title: Text(
-          "Title",
-          style: GoogleFonts.inter(fontSize: 25, fontWeight: FontWeight.w700),
-        ),
-        subtitle: Text(
-          "Description",
-          style: GoogleFonts.inter(
-            fontWeight: FontWeight.w300,
-            fontSize: 15,
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
+        child: ListTile(
+          leading: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 0.3,
+              ),
+            ),
+            child: Image.network(
+                "https://th.bing.com/th/id/OIP.SGe24T2pZb0yX3NYSWydDQHaJg?rs=1&pid=ImgDetMain"),
+          ),
+          title: Column(
+            children: [
+              Text(
+                'this is title',
+                style: kLargeTextStyle,
+              ),
+              Text('Price', style: kNormalTextStyle,),
+              Row(
+                children: [
+
+                ],
+              )
+            ],
           ),
         ),
-        onExpansionChanged: (expanded) {
-          setState(() {
-            _expanded = expanded;
-          });
-        },
-        initiallyExpanded: _expanded,
-        children: const [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: HeadingText(text: "Description"),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an "),
-          ),
-          SizedBox(
-            height: 20,
-          )
-          // Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 15),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //       children: [
-          //         const SizedBox(
-          //           width: 250,
-          //           child: Text(
-          //               "Full Description dsfjsdlkfjdflksjfsl fdslfjdslfk fsldjfld"),
-          //         ),
-          //         const Spacer(),
-          //         Icon(
-          //           Icons.edit,
-          //           color: Colors.teal.shade900,
-          //         ),
-          //         Icon(
-          //           Icons.delete,
-          //           color: Colors.teal.shade900,
-          //         )
-          //       ],
-          //     )),
-        ],
       ),
     );
   }
