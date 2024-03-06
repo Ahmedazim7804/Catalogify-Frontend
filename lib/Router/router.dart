@@ -1,8 +1,10 @@
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_native_splash/flutter_native_splash.dart";
 import "package:go_router/go_router.dart";
 
 import "package:flutter/material.dart";
 import "package:inno_hack/Router/auth_listenable.dart";
+import "package:inno_hack/provider/user_provider.dart";
 import "package:inno_hack/root_scaffold.dart";
 
 import "package:inno_hack/screens/add_catalog.dart";
@@ -15,10 +17,7 @@ import "package:inno_hack/screens/second_screen.dart";
 
 AuthListen authListen = AuthListen();
 final GoRouter router = GoRouter(
-
   initialLocation: '/home_page',
-
-
   refreshListenable: authListen,
   redirect: (context, state) {
     print("redirect state.fullpath = ${state.fullPath}");
@@ -31,6 +30,9 @@ final GoRouter router = GoRouter(
     print(authListen.status);
     if (state.fullPath == '/') {
       if (authListen.status == AuthenticationStatus.authenticated) {
+        context.read<UserProvider>().email = authListen.userx!.email;
+        context.read<UserProvider>().name = authListen.userx!.name;
+
         redirectTo = '/product_screen';
       } else if (authListen.status == AuthenticationStatus.unauthenticated) {
         redirectTo = '/';
@@ -70,9 +72,8 @@ final GoRouter router = GoRouter(
       builder: (context, state) =>
           const RootScaffold(child: OthersDetailScreen()),
     ),
-    GoRoute(path: "/home_page",
-    builder: (context, state)=>
-    const RootScaffold(child: HomeScreen())
-    )
+    GoRoute(
+        path: "/home_page",
+        builder: (context, state) => const RootScaffold(child: HomeScreen()))
   ],
 );

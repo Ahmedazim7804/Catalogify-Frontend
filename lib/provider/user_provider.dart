@@ -9,7 +9,6 @@ class UserProvider extends ChangeNotifier {
   late String name;
   late String phone;
   late String email;
-  late bool employee;
 
   Future<bool> createUser() async {
     return await createUserOnBackend(

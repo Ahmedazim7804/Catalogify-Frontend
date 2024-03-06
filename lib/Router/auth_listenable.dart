@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inno_hack/data/user_endpoints.dart';
+import 'package:inno_hack/models/user.dart' as MyUser;
 
 enum AuthenticationStatus {
   authenticated,
@@ -13,7 +14,7 @@ enum AuthenticationStatus {
 class AuthListen extends ChangeNotifier {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   late final StreamSubscription<dynamic> subscription;
-  User? userx;
+  MyUser.User? userx;
 
   AuthenticationStatus status = AuthenticationStatus.waiting;
 
@@ -29,7 +30,11 @@ class AuthListen extends ChangeNotifier {
 
         if (existOnBackend) {
           final backendUser = await getUser();
-          print(backendUser);
+
+          userx = MyUser.User(
+              email: backendUser['email'],
+              name: backendUser['name'],
+              fireabseId: backendUser['id']);
 
           status = AuthenticationStatus.authenticated;
         } else {
