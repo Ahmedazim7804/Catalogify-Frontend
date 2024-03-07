@@ -15,7 +15,13 @@ class RootScaffold extends StatefulWidget {
 
 class _RootScaffoldState extends State<RootScaffold> {
   int _selectedIndex = 0;
-  late final CatalogCubit catalogCubit = CatalogCubit();
+
+  @override
+  void initState() {
+    context.read<CatalogCubit>().getUserCatalogs();
+    // TODO: implement initState
+    super.initState();
+  }
 
   void onItemTapped(int index) {
     setState(() {
@@ -33,29 +39,21 @@ class _RootScaffoldState extends State<RootScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => catalogCubit,
-        ),
-      ],
-      child: SafeArea(
-        child: Scaffold(
-          body: widget.child,
-          bottomNavigationBar: BottomNavigationBar(
-
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.teal.shade600,
-              unselectedItemColor: Colors.grey.shade500,
-              onTap: onItemTapped,
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.star), label: "LeaderBoard"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle), label: "Profile"),
-              ]),
-        ),
+    return SafeArea(
+      child: Scaffold(
+        body: widget.child,
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.teal.shade600,
+            unselectedItemColor: Colors.grey.shade500,
+            onTap: onItemTapped,
+            items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.star), label: "LeaderBoard"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle), label: "Profile"),
+            ]),
       ),
     );
   }

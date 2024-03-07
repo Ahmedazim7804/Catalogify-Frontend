@@ -36,8 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // nameController.text = employeeDataCubit.employer.name;
-    // phoneController.text = employeeDataCubit.employer.phone;
+    nameController.text = context.read<UserProvider>().name;
+    phoneController.text = "9315082027";
 
     // TODO: implement initState
     super.initState();
@@ -69,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       dismissDirection: DismissDirection.up,
       content: AwesomeSnackbarContent(
         title: 'Success!',
-        message: 'You\'re catalog successfully has been uploaded.',
+        message: 'You\'re data has successfully been uploaded.',
         contentType: ContentType.success,
       ),
     ));
@@ -303,7 +303,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: SizedBox(
                                 width: MediaQuery.sizeOf(context).width / 3.5,
                                 child: ElevatedButton(
-                                    onPressed: profileUpdatedSnackbar,
+                                    onPressed: updateProfile,
                                     style: ElevatedButton.styleFrom(
                                         elevation: 0,
                                         backgroundColor: const Color.fromARGB(

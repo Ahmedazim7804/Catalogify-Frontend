@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inno_hack/bloc/catalog_cubits.dart';
 import 'package:inno_hack/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -20,15 +22,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
-      child: MaterialApp.router(
-        routerConfig: router,
-        theme: ThemeData(
-          secondaryHeaderColor: Colors.pink,
-          primaryColor: Colors.teal,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => CatalogCubit(),
+        ),
+      ],
+      child: MultiProvider(
+        providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+        child: MaterialApp.router(
+          routerConfig: router,
+          theme: ThemeData(
+            secondaryHeaderColor: Colors.pink,
+            primaryColor: Colors.teal,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
         ),
       ),
     );

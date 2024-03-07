@@ -7,9 +7,7 @@ import 'package:inno_hack/models/catalog.dart';
 part 'catalog_state.dart';
 
 class CatalogCubit extends Cubit<CatalogState> {
-  CatalogCubit() : super(CatalogLoading()) {
-    getUserCatalogs();
-  }
+  CatalogCubit() : super(CatalogLoading());
 
   List<Catalog> catalogs = [];
 

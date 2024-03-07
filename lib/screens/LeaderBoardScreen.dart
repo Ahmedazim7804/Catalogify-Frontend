@@ -7,6 +7,7 @@ import 'package:inno_hack/models/catalog.dart';
 import 'package:inno_hack/screens/widgets/SingleProduct.dart';
 import "package:inno_hack/utilities/constants.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lottie/lottie.dart';
 
 class LeaderBoardScreen extends StatefulWidget {
   const LeaderBoardScreen({super.key, required this.category});
@@ -21,18 +22,48 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
     showModalBottomSheet(
         useSafeArea: true,
         context: context,
+        enableDrag: false,
+        showDragHandle: false,
         isScrollControlled: true,
         builder: (context) => const Text('data'));
-    // (context) => SingleProduct(title: 'title', price: 20, category: Categories.books, description: "description is this khushal bhasin", brand: "brand", warranty: 20, returnPeriod: 20, state: "state", userId: "userId", images: []))
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+        ),
+        title: const Text(
+          "Leaderboard",
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.teal,
+      ),
       body: FutureBuilder(
           future: getLeaderBoard(widget.category.value),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.length == 0) {
+                return Center(
+                  child: Column(
+                    children: [
+                      LottieBuilder.asset('assets/lottie/employee_search.json'),
+                      Text(
+                        "No catalogs found",
+                        style: GoogleFonts.inter(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                );
+              }
+
               final List<Catalog> catalogs = [];
 
               for (final unparsedPost in snapshot.data) {

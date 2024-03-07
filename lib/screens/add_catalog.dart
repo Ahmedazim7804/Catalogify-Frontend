@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inno_hack/bloc/catalog_cubits.dart';
 import 'package:inno_hack/core/constants.dart';
 import 'package:inno_hack/core/validators.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -69,25 +70,6 @@ class _AddCatalogState extends State<AddCatalog> {
   }
 
   void onSave() async {
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //   /// need to set following properties for best effect of awesome_snackbar_content
-    //   elevation: 0,
-    //   behavior: SnackBarBehavior.floating,
-    //   backgroundColor: Colors.transparent,
-    //   // margin: EdgeInsets.only(
-    //   //     bottom: MediaQuery.of(context).size.height - 250,
-    //   //     left: 10,
-    //   //     right: 10),
-    //   dismissDirection: DismissDirection.up,
-    //   content: AwesomeSnackbarContent(
-    //     title: 'Success!',
-    //     message: 'You\'re catalog successfully has been uploaded.',
-
-    //     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-    //     contentType: ContentType.success,
-    //   ),
-    // ));
-
     overlayPortalController.show();
     final bool dataIsValid = formkey.currentState!.validate();
 
@@ -106,8 +88,21 @@ class _AddCatalogState extends State<AddCatalog> {
           images: imagesProvider.images);
 
       await catalog.uploadCatalog();
+      context.read<CatalogCubit>().emit(CatalogLoading());
+      context.read<CatalogCubit>().getUserCatalogs();
       overlayPortalController.hide();
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        dismissDirection: DismissDirection.up,
+        content: AwesomeSnackbarContent(
+          title: 'Success!',
+          message: 'You\'re catalog successfully has been uploaded.',
+          contentType: ContentType.success,
+        ),
+      ));
     }
   }
 
