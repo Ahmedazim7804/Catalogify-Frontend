@@ -36,7 +36,7 @@ class SingleProduct extends StatelessWidget {
 
             final data = snapshot.data;
             (data['assessment2'] as List<dynamic>).add(1);
-            print(data);
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

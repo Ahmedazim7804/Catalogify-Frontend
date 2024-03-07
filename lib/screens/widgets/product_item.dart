@@ -20,6 +20,7 @@ class _ProductItemState extends State<ProductItem> {
   void _showsingleproduct() {
     showModalBottomSheet(
         useSafeArea: true,
+        enableDrag: false,
         context: context,
         isScrollControlled: true,
         builder: (context) => SingleProduct(catalog: widget.catalog));
