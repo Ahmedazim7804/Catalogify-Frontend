@@ -39,18 +39,20 @@ class _RootScaffoldState extends State<RootScaffold> {
           create: (_) => catalogCubit,
         ),
       ],
-      child: Scaffold(
-        body: widget.child,
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: onItemTapped,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.star), label: "LeaderBoard"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.account_circle), label: "Profile"),
-            ]),
+      child: SafeArea(
+        child: Scaffold(
+          body: widget.child,
+          bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: onItemTapped,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.star), label: "LeaderBoard"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.account_circle), label: "Profile"),
+              ]),
+        ),
       ),
     );
   }

@@ -69,8 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Container(
                   child: const Image(
-                    image: NetworkImage(
-                        "https://th.bing.com/th/id/OIP.tMHR6LMDGRzKQ-382IoefAHaEK?rs=1&pid=ImgDetMain"),
+                    image: AssetImage("assets/images/icon.png")
                   ),
                 ),
                 Container(
