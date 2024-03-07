@@ -1,4 +1,4 @@
-# SyncNexus Frontend - Flutter App
+# InnoHack Frontend - Flutter App
 
 Welcome to the InnoHack frontend repository for the Flutter app! This repository contains the codebase for the SyncNexus mobile app frontend, built using the Flutter framework. Tje app offers a friendly interface, letting you access Catalogify's features easily on your phone. Search, manage tasks, and communicate effortlessly..
 
