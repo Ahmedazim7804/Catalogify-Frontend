@@ -43,7 +43,10 @@ class _RootScaffoldState extends State<RootScaffold> {
         child: Scaffold(
           body: widget.child,
           bottomNavigationBar: BottomNavigationBar(
+
               currentIndex: _selectedIndex,
+              selectedItemColor: Colors.teal.shade600,
+              unselectedItemColor: Colors.grey.shade500,
               onTap: onItemTapped,
               items: const [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inno_hack/core/constants.dart';
-
+import "package:inno_hack/utilities/constants.dart";
 class LeaderBoardCategories extends StatefulWidget {
   const LeaderBoardCategories({super.key});
 
@@ -27,8 +27,8 @@ class _LeaderBoardCategoriesState extends State<LeaderBoardCategories> {
       appBar: AppBar(
         foregroundColor: Colors.white,
         backgroundColor: Colors.teal,
-        title: const Center(
-          child: Text("Categories"),
+        title:  Center(
+          child: Text("CATALOGIFY", style:kTitleAppbar),
         ),
       ),
       body: GridView.count(

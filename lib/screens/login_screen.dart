@@ -63,6 +63,13 @@ class _LoginScreenState extends State<LoginScreen> {
         controller: overlayPortalController,
         overlayChildBuilder: overlayChildBuilder,
         child: Scaffold(
+          appBar: AppBar(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.teal,
+            title: Center(
+              child: Text("CATALOGIFY", style:kTitleAppbar ,)
+            ),
+          ),
           body: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
