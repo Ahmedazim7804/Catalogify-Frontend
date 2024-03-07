@@ -79,20 +79,20 @@ final GoRouter router = GoRouter(
               ]),
           StatefulShellBranch(navigatorKey: _shellNavigatorRoomsKey, routes: [
             GoRoute(
-              path: '/leaderboard_screen',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: LeaderBoardScreen(
-                      title: 'title',
-                      price: 20,
-                      category: Categories.books,
-                      description: "description is this khushal bhasin",
-                      brand: "brand",
-                      warranty: 20,
-                      returnPeriod: 20,
-                      state: "state",
-                      userId: "userId",
-                      images: const [])),
+              path: '/leaderboard_categories',
+              pageBuilder: (context, state) =>
+                  const MaterialPage(child: LeaderBoardCategories()),
             ),
+            GoRoute(
+                path: '/leaderboard_screen',
+                name: 'leaderboard',
+                pageBuilder: (context, state) {
+                  Categories category = state.extra as Categories;
+                  return MaterialPage(
+                      child: LeaderBoardScreen(
+                    category: category,
+                  ));
+                })
           ]),
           StatefulShellBranch(navigatorKey: _shellNavigatorProfileKey, routes: [
             GoRoute(

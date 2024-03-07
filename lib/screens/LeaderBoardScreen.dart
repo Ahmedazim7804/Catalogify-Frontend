@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:inno_hack/core/constants.dart';
+import 'package:inno_hack/data/user_endpoints.dart';
+import 'package:inno_hack/models/catalog.dart';
 import 'package:inno_hack/screens/widgets/SingleProduct.dart';
 import "package:inno_hack/utilities/constants.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class LeaderBoardScreen extends StatefulWidget {
-  LeaderBoardScreen(
-      {super.key,
-      required this.title,
-      required this.price,
-      required this.category,
-      required this.description,
-      required this.brand,
-      required this.warranty,
-      required this.returnPeriod,
-      required this.state,
-      required this.userId,
-      required this.images});
-  final String title;
-  final String userId;
-  final int price;
+  const LeaderBoardScreen({super.key, required this.category});
   final Categories category;
-  final String description;
-  final String brand;
-  final int warranty;
-  final int returnPeriod;
-  final String state;
-  List<String> images;
 
   @override
   State<LeaderBoardScreen> createState() => _LeaderBoardScreenState();
@@ -46,81 +28,160 @@ class _LeaderBoardScreenState extends State<LeaderBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: 20, // Number of items in the list
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              _showsingleproduct();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    height: 75,
-                    width: 50,
-                    decoration: const BoxDecoration(
-                        color: Colors.teal,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            topLeft: Radius.circular(20))),
-                    alignment: Alignment.center,
-                    child: Text(
-                      (index + 1).toString(),
-                      style: GoogleFonts.inter(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    height: 75,
-                    width: MediaQuery.sizeOf(context).width - 60,
-                    color: Colors.grey.shade200,
-                    child: ListTile(
-                      leading: Image.asset('assets/images/default_user.png'),
-                      title: Text(widget.title, style: kLargeTextStyle),
-                      subtitle: Text(
-                        widget.description,
-                        overflow: TextOverflow.ellipsis,
-                        style: kNormalTextStyle,
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: FutureBuilder(
+          future: getLeaderBoard(widget.category.value),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              // final List<Catalog> catalogs = [];
+              print(snapshot.data[1]['score']);
+              // for (final unparsedPost in snapshot.data) {
+              //   Catalog catalog = Catalog(
+              //       postId: unparsedPost['id'],
+              //       title: unparsedPost['data']['title'],
+              //       price: 200,
+              //       // price: (unparsedPost['data']['cost'] as double).toInt(),
+              //       category:
+              //           Categories.fromValue(unparsedPost['data']['category']),
+              //       description: unparsedPost['data']['description'],
+              //       brand: "NOTHING",
+              //       // brand: unparsedPost['brand'],
+              //       // warranty: unparsedPost['warranty_yrs'],
+              //       warranty: 11,
+              //       // returnPeriod: unparsedPost['return_days'],
+              //       returnPeriod: 11,
+              //       state: unparsedPost['seller_location'],
+              //       images: unparsedPost['images']);
+
+              //   catalogs.add(catalog);
+              // }
+
+              return ListView.builder(
+                itemCount: snapshot.data.length, // Number of items in the list
+                itemBuilder: (BuildContext context, int index) {
+                  bool upvoted = false;
+                  bool downvoted = false;
+
+                  return GestureDetector(
+                    onTap: () {
+                      _showsingleproduct();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 5),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          SizedBox(
-                            width: 80,
-                            height: 20,
-                            child: RatingBar.builder(
-                              initialRating: 3,
-                              minRating: 1,
-                              itemSize: 15,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 2,
-                              ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
+                          Container(
+                            height: 125,
+                            width: 50,
+                            decoration: const BoxDecoration(
+                                color: Colors.teal,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    topLeft: Radius.circular(20))),
+                            alignment: Alignment.center,
+                            child: Text(
+                              (index + 1).toString(),
+                              style: GoogleFonts.inter(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          const Text("1.6k👍")
+                          Container(
+                            height: 125,
+                            width: MediaQuery.sizeOf(context).width - 60,
+                            color: Colors.grey.shade200,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  leading: Image.asset(
+                                      'assets/images/default_user.png'),
+                                  title: Text(
+                                      snapshot.data[index]['data']['title'],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: kLargeTextStyle),
+                                  subtitle: Text(
+                                    snapshot.data[index]['data']['description'],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: kNormalTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "Score: ",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(snapshot.data[index]['score']
+                                                  .toString())
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                "Likes: ",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                  "${snapshot.data[index]['likes']}"
+                                                      .toString())
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      IconButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.grey),
+                                          icon: const Icon(Icons.arrow_upward)),
+                                      IconButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.grey),
+                                          icon:
+                                              const Icon(Icons.arrow_downward))
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            //
+                          ),
                         ],
                       ),
                     ),
-
-                    //
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                  );
+                },
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.teal,
+                ),
+              );
+            }
+          }),
     );
   }
 }

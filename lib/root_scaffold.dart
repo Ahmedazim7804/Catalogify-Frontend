@@ -25,7 +25,7 @@ class _RootScaffoldState extends State<RootScaffold> {
     if (index == 0) {
       context.go("/home_page");
     } else if (index == 1) {
-      context.go("/leaderboard_screen");
+      context.go("/leaderboard_categories");
     } else if (index == 2) {
       context.go("/profile_screen");
     }
