@@ -7,7 +7,7 @@ Welcome to the InnoHack frontend repository for the Flutter app! This repository
 This section contains links to the frontend and backend repositories, as well as the base URL and documentation for the backend API.
 
 ### Frontend Repository
-- Repository URL: [Frontend Repo - https://github.com/Ahmedazim7804/InnoHack](https://github.com/Ahmedazim7804/InnoHack)
+- Repository URL: [Frontend Repo - https://github.com/Ahmedazim7804/InnoHack](https://github.com/Ahmedazim7804/InnoHack-Frontend)
 
 ### Backend Repository
 - Repository URL: [Backend Repo - https://github.com/atishayj2202/InnoHack-Hackathon-Backend](https://github.com/atishayj2202/InnoHack-Hackathon-Backend)
