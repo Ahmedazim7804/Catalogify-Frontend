@@ -139,3 +139,15 @@ Future<dynamic> listPosts() async {
         'Failed to load data from endpoint: ${response.statusCode} ${response.body}');
   }
 }
+
+Future<dynamic> getLeaderBoard(String category) async {
+  final Uri uri = Uri.parse('${getBaseURL()}/user/$category/get-leaderboard/');
+  Map<String, String> header = await headers();
+  final response = await http.get(uri, headers: header);
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception(
+        'Failed to load data from endpoint: ${response.statusCode} ${response.body}');
+  }
+}
