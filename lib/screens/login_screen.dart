@@ -67,29 +67,37 @@ class _LoginScreenState extends State<LoginScreen> {
             foregroundColor: Colors.white,
             backgroundColor: Colors.teal,
             title: Center(
-              child: Text("CATALOGIFY", style:kTitleAppbar ,)
-            ),
+                child: Text(
+              "CATALOGIFY",
+              style: kTitleAppbar,
+            )),
           ),
           body: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  child: const Image(
-                    image: AssetImage("assets/images/icon.png")
-                  ),
+                  child:
+                      const Image(image: AssetImage("assets/images/icon.png")),
                 ),
                 Container(
                   child: Text("Let's Get Started!",
                       style: GoogleFonts.inter(
                           fontWeight: FontWeight.w900, fontSize: 35)),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  child: Text("Unleash Your Selling Potential!",
+                      style: kNormalTextStyle),
+                ),
                 Container(
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "dsfldfjdslksjdfldsjfsldfjdslkfdldsjfsdlddlf lsdkjf dlsfj dlfjds flfj sfjlfs flf ldsjf dsjf lds fdsljfdlfj ds",
+                      "",
                       style: GoogleFonts.inter(fontSize: 15),
                       textAlign: TextAlign.center,
                     ),
