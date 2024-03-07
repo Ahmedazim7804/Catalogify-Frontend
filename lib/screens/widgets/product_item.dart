@@ -74,7 +74,16 @@ class _ProductItemState extends State<ProductItem> {
             child: Column(
               children: [
                 ListTile(
-                  leading: Image.network(widget.catalog.images.first),
+                  leading: Container(
+                      height: 80,
+                      width: 80,
+                      clipBehavior: Clip.hardEdge,
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                      child: Image.network(
+                        widget.catalog.images.first,
+                        fit: BoxFit.fill,
+                      )),
                   title: Text(
                     widget.catalog.title,
                     overflow: TextOverflow.ellipsis,

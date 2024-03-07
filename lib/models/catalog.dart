@@ -33,16 +33,24 @@ class Catalog {
   List<dynamic> images;
 
   Future<void> uploadCatalog() async {
-    images = await uploadImagesToFirebase();
+    images = await uploadImagesToFirebase(images);
     await createPost(this);
   }
 
-  void editCatalog() async {
-    images = await uploadImagesToFirebase();
+  Future<void> editCatalog() async {
+    final newImages =
+        images.where((e) => (e as String).substring(0, 5) != 'https').toList();
+
+    final oldImages =
+        images.where((e) => (e as String).substring(0, 5) == 'https').toList();
+
+    oldImages.addAll(await uploadImagesToFirebase(newImages));
+    images = oldImages;
+
     await editPost(postId!, this);
   }
 
-  Future<List<String>> uploadImagesToFirebase() async {
+  Future<List<String>> uploadImagesToFirebase(List<dynamic> imagess) async {
     const uuid = Uuid();
 
     final List<String> downloadPaths = [];
@@ -50,9 +58,9 @@ class Catalog {
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
     final Reference refrence =
-        firebaseStorage.ref().child('user/$userId/${uuid.v1()}.jpg');
+        firebaseStorage.ref().child('user/$userId/${uuid.v4()}.jpg');
 
-    for (final String image in images) {
+    for (final String image in imagess) {
       TaskSnapshot taskSnapshot = await refrence.putFile(File(image));
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       downloadPaths.add(downloadUrl);

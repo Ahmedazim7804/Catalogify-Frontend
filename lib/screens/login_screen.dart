@@ -83,9 +83,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   child: Text("Let's Get Started!",
                       style: GoogleFonts.inter(
-                          fontWeight: FontWeight.w900, fontSize: 35)),
+                          fontWeight: FontWeight.w600, fontSize: 25)),
                 ),
-                SizedBox(
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  child: Text("Unleash Your Selling Potential!",
+                      style: kNormalTextStyle),
+                ),
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
@@ -97,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "",
+                      "dsfldfjdslksjdfldsjfsldfjdslkfdldsjfsdlddlf lsdkjf dlsfj dlfjds flfj sfjlfs flf ldsjf dsjf lds fdsljfdlfj ds",
                       style: GoogleFonts.inter(fontSize: 15),
                       textAlign: TextAlign.center,
                     ),

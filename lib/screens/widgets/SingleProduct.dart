@@ -35,66 +35,96 @@ class SingleProduct extends StatelessWidget {
             }
 
             final data = snapshot.data;
-            (data['assessment2'] as List<dynamic>).add(1);
-
+            print(data);
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: Stack(children: [
-                      catalog.images.length == 1
-                          ? Image.network(
-                              catalog.images[0],
-                              height: 128,
-                              width: 128,
-                            )
-                          : CarouselSlider.builder(
-                              itemCount: catalog.images.length,
-                              itemBuilder: (context, index, realIndex) => Stack(
-                                    children: [
-                                      Image.network(
-                                        catalog.images[index],
-                                        height: 256,
-                                        width: 256,
-                                      ),
-                                      (data['assessment2'] as List<dynamic>)
-                                              .contains(index)
-                                          ? Positioned(
-                                              top: 30,
-                                              child: Image.asset(
-                                                'assets/images/declined.png',
-                                                width: 24,
-                                                height: 24,
-                                              ))
-                                          : const SizedBox.shrink()
-                                    ],
+                    child: CarouselSlider.builder(
+                        itemCount: catalog.images.length,
+                        itemBuilder: (context, index, realIndex) => Stack(
+                              children: [
+                                Container(
+                                  height: 165,
+                                  width: 250,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Image.network(
+                                    catalog.images[index],
+                                    fit: BoxFit.fill,
                                   ),
-                              options: CarouselOptions()),
-                    ]),
+                                ),
+                                ((data['assessment2'] as List<dynamic>)
+                                            .contains(index) ||
+                                        (data['assessment2'] as List<dynamic>)
+                                            .contains(index.toString()))
+                                    ? Positioned(
+                                        top: 0,
+                                        child: Image.asset(
+                                          'assets/images/declined.png',
+                                          width: 64,
+                                          height: 64,
+                                        ))
+                                    : const SizedBox.shrink()
+                              ],
+                            ),
+                        options: CarouselOptions(
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                        )),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  data['assessment4'] == true
-                      ? const SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4))),
-                            child: Text(
-                              "Dangerous",
-                              style: GoogleFonts.urbanist(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      data['assessment5'] == true
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4))),
+                                child: Text(
+                                  "Unfit Catalog",
+                                  style: GoogleFonts.urbanist(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                      data['assessment4'] == true
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 0),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4))),
+                                child: Text(
+                                  "Dangerous",
+                                  style: GoogleFonts.urbanist(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
@@ -326,7 +356,7 @@ class SingleProduct extends StatelessWidget {
                             ),
                             const Spacer(),
                             (data['assessment3'] == true &&
-                                    data['assessment3'] == true)
+                                    data['assessment5'] == true)
                                 ? SvgPicture.asset('assets/images/icon.svg')
                                 : Image.asset(
                                     'assets/images/declined.png',
@@ -334,7 +364,15 @@ class SingleProduct extends StatelessWidget {
                                     height: 24,
                                   )
                           ],
-                        )
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const HeadingText(text: "Recommendation"),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(data['recommendation'])
                       ],
                     ),
                   ),

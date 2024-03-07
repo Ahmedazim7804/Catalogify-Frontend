@@ -84,40 +84,38 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(30),
-              color: Colors.teal,
-              height: 200,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "Hi,\n${context.read<UserProvider>().name}",
-                    style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontSize: 19,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  const Spacer(),
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage:
-                        Image.asset('assets/images/default_user.png').image,
-                  )
-                ],
-              ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+            color: Colors.teal,
+            height: 150,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  "Hi,\n${context.read<UserProvider>().name}",
+                  style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
+                ),
+                const Spacer(),
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.transparent,
+                  backgroundImage:
+                      Image.asset('assets/images/default_user.png').image,
+                )
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomSheet: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        height: 450,
+        height: 500,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -162,6 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       text: "Your Products",
                       color: Colors.white,
                       size: 18,
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),

@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inno_hack/bloc/catalog_cubits.dart';
 import 'package:inno_hack/core/constants.dart';
 import 'package:inno_hack/core/validators.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -24,6 +26,8 @@ class EditCatalog extends StatefulWidget {
 class _AddCatalogState extends State<EditCatalog> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final List<String> boxContents = [];
+  final OverlayPortalController overlayPortalController =
+      OverlayPortalController();
 
   String? productName;
   String? price;
@@ -70,7 +74,8 @@ class _AddCatalogState extends State<EditCatalog> {
     );
   }
 
-  void onSave() {
+  void onSave() async {
+    overlayPortalController.show();
     final bool dataIsValid = formkey.currentState!.validate();
 
     if (dataIsValid) {
@@ -81,13 +86,29 @@ class _AddCatalogState extends State<EditCatalog> {
           category: category!,
           description: desc!,
           brand: brand!,
+          postId: widget.catalog.postId,
           warranty: int.parse(warranty!),
           returnPeriod: int.parse(returnPeriod!),
           state: state!,
           userId: context.read<UserProvider>().uid,
           images: imagesProvider.images);
 
-      catalog.uploadCatalog();
+      await catalog.editCatalog();
+      context.read<CatalogCubit>().emit(CatalogLoading());
+      context.read<CatalogCubit>().getUserCatalogs();
+      overlayPortalController.hide();
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        dismissDirection: DismissDirection.up,
+        content: AwesomeSnackbarContent(
+          title: 'Success!',
+          message: 'You\'re catalog successfully has been uploaded.',
+          contentType: ContentType.success,
+        ),
+      ));
     }
   }
 
@@ -379,11 +400,17 @@ class _ImagesListState extends State<ImagesList> {
                     )
                   : CarouselSlider.builder(
                       itemCount: images.images.length,
-                      itemBuilder: (context, index, realIndex) => Image.network(
+                      itemBuilder: (context, index, realIndex) {
+                        if (images.images[index].substring(0, 5) != 'https') {
+                          return Image.file(File(images.images[index]));
+                        } else {
+                          return Image.network(
                             images.images[index],
                             height: 222,
                             width: 222,
-                          ),
+                          );
+                        }
+                      },
                       options: CarouselOptions())),
           // Positioned(
           //     bottom: 0,

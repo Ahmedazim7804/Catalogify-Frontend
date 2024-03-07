@@ -4,7 +4,7 @@ import 'package:inno_hack/data/user_endpoints.dart';
 class UserProvider extends ChangeNotifier {
   UserProvider();
 
-  late final String uid;
+  late String uid;
 
   late String name;
   late String phone;
