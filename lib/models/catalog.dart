@@ -32,7 +32,7 @@ class Catalog {
   final String? postId;
   List<dynamic> images;
 
-  void uploadCatalog() async {
+  Future<void> uploadCatalog() async {
     images = await uploadImagesToFirebase();
     await createPost(this);
   }

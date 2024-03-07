@@ -82,21 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          FloatingActionButton.extended(
-            heroTag: 'btn4',
-            backgroundColor: Colors.teal,
-            onPressed: () {},
-            label: const Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                Text('Import by JSON', style: TextStyle(color: Colors.white))
-              ],
-            ),
-          ),
         ],
       ),
       body: Container(

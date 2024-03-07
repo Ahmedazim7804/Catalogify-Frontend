@@ -1,7 +1,11 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:inno_hack/data/user_endpoints.dart';
+import 'package:inno_hack/provider/user_provider.dart';
 import 'package:inno_hack/screens/widgets/overlay_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -59,32 +63,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void profileUpdatedSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.teal,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        behavior: SnackBarBehavior.fixed,
-        content: Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: Colors.teal, borderRadius: BorderRadius.circular(20)),
-          child: Text(
-            "Profile Updated",
-            style: GoogleFonts.urbanist(fontSize: 16, color: Colors.black),
-          ),
-        )));
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      dismissDirection: DismissDirection.up,
+      content: AwesomeSnackbarContent(
+        title: 'Success!',
+        message: 'You\'re catalog successfully has been uploaded.',
+        contentType: ContentType.success,
+      ),
+    ));
   }
 
-  // void updateProfile() async {
-  //   overlayPortalController.show();
-  //   if (inputIsValid) {
-  //     await updateUser(nameController.text, phoneController.text, email);
-
-  //     employeeDataCubit.getEmployersData();
-  //   }
-  //   overlayPortalController.hide();
-  //   profileUpdatedSnackbar();
-  // }
+  void updateProfile() async {
+    overlayPortalController.show();
+    if (inputIsValid) {
+      await updateUser(nameController.text, phoneController.text,
+          context.read<UserProvider>().email);
+    }
+    overlayPortalController.hide();
+    profileUpdatedSnackbar();
+  }
 
   void showSignOutDialog() {
     showDialog(
@@ -122,10 +121,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (result) {
         await FirebaseAuth.instance.signOut();
         await GoogleSignIn().signOut();
-        // await context.read<EmployerDataCubit>().close();
-        context.go('/screens/authentication/signup');
+
+        context.go('/');
       }
     });
+  }
+
+  void addImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: false);
+
+    if (result != null) {
+      print(result.files[0].path);
+    }
   }
 
   @override
@@ -196,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.black87,
                         ),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: addImage,
                           child: const Icon(
                             Icons.edit,
                             color: Colors.white,
@@ -295,7 +303,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: SizedBox(
                                 width: MediaQuery.sizeOf(context).width / 3.5,
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: profileUpdatedSnackbar,
                                     style: ElevatedButton.styleFrom(
                                         elevation: 0,
                                         backgroundColor: const Color.fromARGB(

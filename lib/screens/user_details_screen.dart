@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +24,8 @@ class _OthersDetailScreenState extends State<OthersDetailScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
+  String? image;
+
   bool nameIsValid = false;
   bool phoneIsValid = false;
 
@@ -37,8 +43,17 @@ class _OthersDetailScreenState extends State<OthersDetailScreen> {
   void next() async {
     if (inputsAreValid) {
       context.read<UserProvider>().name = nameController.text;
+
+      if (image != null) {
+        FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+        final Reference refrence = firebaseStorage.ref().child(
+            'user/${context.read<UserProvider>().uid}_profile_image.jpg');
+
+        await refrence.putFile(File(image!));
+      }
+
       await context.read<UserProvider>().createUser();
-      context.go('/product_screen');
+      context.go('/home_page');
     }
   }
 
@@ -86,6 +101,15 @@ class _OthersDetailScreenState extends State<OthersDetailScreen> {
     return true;
   }
 
+  void addImage() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: false);
+
+    if (result != null) {
+      image = result.files[0].path;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,11 +121,51 @@ class _OthersDetailScreenState extends State<OthersDetailScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/images/icon.png',
-                color: Colors.teal,
-              ),
               const Spacer(),
+              Stack(
+                children: [
+                  Positioned(
+                    child: Container(
+                        width: 48 * 2,
+                        height: 48 * 2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(48),
+                        ),
+                        child: image == null
+                            ? Image.asset(
+                                'assets/images/default_user.png',
+                              )
+                            : ClipOval(child: Image.file(File(image!)))),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black87,
+                      ),
+                      child: InkWell(
+                        onTap: addImage,
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              // Image.asset(
+              //   'assets/images/icon.png',
+              //   color: Colors.teal,
+              // ),
               Text(
                 "Getting started!✌️",
                 style: GoogleFonts.dmSans(

@@ -10,7 +10,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:inno_hack/models/catalog.dart';
 import 'package:inno_hack/provider/images_provider.dart';
 import 'package:inno_hack/provider/user_provider.dart';
+import 'package:inno_hack/screens/widgets/overlay_widget.dart';
 import 'package:provider/provider.dart';
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class AddCatalog extends StatefulWidget {
   const AddCatalog({super.key, this.catalog});
@@ -24,6 +27,8 @@ class AddCatalog extends StatefulWidget {
 class _AddCatalogState extends State<AddCatalog> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final List<String> boxContents = [];
+  final OverlayPortalController overlayPortalController =
+      OverlayPortalController();
 
   String? productName;
   String? price;
@@ -63,7 +68,27 @@ class _AddCatalogState extends State<AddCatalog> {
     );
   }
 
-  void onSave() {
+  void onSave() async {
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //   /// need to set following properties for best effect of awesome_snackbar_content
+    //   elevation: 0,
+    //   behavior: SnackBarBehavior.floating,
+    //   backgroundColor: Colors.transparent,
+    //   // margin: EdgeInsets.only(
+    //   //     bottom: MediaQuery.of(context).size.height - 250,
+    //   //     left: 10,
+    //   //     right: 10),
+    //   dismissDirection: DismissDirection.up,
+    //   content: AwesomeSnackbarContent(
+    //     title: 'Success!',
+    //     message: 'You\'re catalog successfully has been uploaded.',
+
+    //     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+    //     contentType: ContentType.success,
+    //   ),
+    // ));
+
+    overlayPortalController.show();
     final bool dataIsValid = formkey.currentState!.validate();
 
     if (dataIsValid) {
@@ -80,231 +105,246 @@ class _AddCatalogState extends State<AddCatalog> {
           userId: context.read<UserProvider>().uid,
           images: imagesProvider.images);
 
-      catalog.uploadCatalog();
+      await catalog.uploadCatalog();
+      overlayPortalController.hide();
+      Navigator.pop(context);
     }
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Add",
-          style: TextStyle(fontWeight: FontWeight.w600),
+    return OverlayPortal(
+      controller: overlayPortalController,
+      overlayChildBuilder: overlayChildBuilder,
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: const Text(
+            "Add",
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back),
+            color: const Color(0xFF335A02),
+          ),
+          centerTitle: true,
         ),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-          color: const Color(0xFF335A02),
+        floatingActionButton: InkWell(
+          onTap: onSave,
+          child: Container(
+              height: 50,
+              width: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color(0xFFADD0B3),
+              ),
+              alignment: Alignment.center,
+              child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "Save",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22),
+                  ))),
         ),
-        centerTitle: true,
-      ),
-      floatingActionButton: InkWell(
-        onTap: onSave,
-        child: Container(
-            height: 50,
-            width: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(0xFFADD0B3),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                ListenableProvider(
+                  create: (_) => imagesProvider,
+                  child: const ImagesList(),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Form(
+                    key: formkey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Product Name",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        TextFormField(
+                          validator: (value) =>
+                              Validators.titleValidator(value),
+                          decoration: getInputDecoration('Enter Product Name'),
+                          onSaved: (value) => productName = value,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Price",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              Validators.priceValidator(value),
+                          decoration: getInputDecoration('Price'),
+                          onSaved: (value) => price = value,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Category",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        DropdownButtonFormField(
+                          onSaved: (value) => category!.value,
+                          items: Categories.values
+                              .map((item) => DropdownMenuItem<Categories>(
+                                    value: item,
+                                    child: Text(item.value),
+                                  ))
+                              .toList(),
+                          onChanged: (Categories? value) {
+                            category = value;
+                          },
+                          decoration: getInputDecoration(''),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Description",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        TextFormField(
+                          minLines: 3,
+                          maxLines: 5,
+                          onSaved: (value) => desc = value,
+                          validator: (value) => Validators.descValidator(value),
+                          decoration:
+                              getInputDecoration('Enter Product Description'),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Brand",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        TextFormField(
+                          onSaved: (value) => brand = value,
+                          validator: (value) =>
+                              Validators.brandValidator(value),
+                          decoration: getInputDecoration('Brand'),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Warranty",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        TextFormField(
+                          onSaved: (value) => warranty = value,
+                          validator: (value) =>
+                              Validators.warrantyValidator(value),
+                          decoration: getInputDecoration(
+                              'in Months (0, if no warranty)'),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Return Period",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        TextFormField(
+                          onSaved: (value) => returnPeriod = value,
+                          validator: (value) =>
+                              Validators.returnPeriodValidator(value),
+                          decoration: getInputDecoration(
+                              'in Days (0, if no return period)'),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "State",
+                          style: GoogleFonts.inter(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                        TextFormField(
+                          onSaved: (value) => state = value,
+                          validator: (value) =>
+                              Validators.locationValidator(value),
+                          decoration: getInputDecoration('State'),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        // Text(
+                        //   "Box Contents",
+                        //   style: GoogleFonts.inter(
+                        //       fontSize: 18, fontWeight: FontWeight.w600),
+                        // ),
+                        // boxContents.isNotEmpty
+                        //     ? Container(
+                        //         child: ListView.builder(
+                        //           shrinkWrap: true,
+                        //           itemCount: boxContents.length,
+                        //           itemBuilder: (context, index) => TextFormField(
+                        //             decoration:
+                        //                 getInputDecoration("Box Item $index"),
+                        //             onSaved: (value) {
+                        //               if (value != null) {
+                        //                 boxContents[index] = value;
+                        //               }
+                        //             },
+                        //           ),
+                        //         ),
+                        //       )
+                        //     : Row(
+                        //         children: [
+                        //           Expanded(
+                        //             child: TextFormField(
+                        //               decoration:
+                        //                   getInputDecoration("Box Item 1"),
+                        //             ),
+                        //           ),
+                        //           IconButton(
+                        //               onPressed: () {
+                        //                 setState(() {
+                        //                   boxContents.add('');
+                        //                 });
+                        //               },
+                        //               icon: const Icon(Icons.add))
+                        //         ],
+                        //       )
+                      ],
+                    ))
+              ],
             ),
-            alignment: Alignment.center,
-            child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Save",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22),
-                ))),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              ListenableProvider(
-                create: (_) => imagesProvider,
-                child: const ImagesList(),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Form(
-                  key: formkey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Product Name",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextFormField(
-                        validator: (value) => Validators.titleValidator(value),
-                        decoration: getInputDecoration('Enter Product Name'),
-                        onSaved: (value) => productName = value,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Price",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        validator: (value) => Validators.priceValidator(value),
-                        decoration: getInputDecoration('Price'),
-                        onSaved: (value) => price = value,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Category",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      DropdownButtonFormField(
-                        onSaved: (value) => category!.value,
-                        items: Categories.values
-                            .map((item) => DropdownMenuItem<Categories>(
-                                  value: item,
-                                  child: Text(item.value),
-                                ))
-                            .toList(),
-                        onChanged: (Categories? value) {
-                          category = value;
-                        },
-                        decoration: getInputDecoration(''),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Description",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextFormField(
-                        minLines: 3,
-                        maxLines: 5,
-                        onSaved: (value) => desc = value,
-                        validator: (value) => Validators.descValidator(value),
-                        decoration:
-                            getInputDecoration('Enter Product Description'),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Brand",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextFormField(
-                        onSaved: (value) => brand = value,
-                        validator: (value) => Validators.brandValidator(value),
-                        decoration: getInputDecoration('Brand'),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Warranty",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextFormField(
-                        onSaved: (value) => warranty = value,
-                        validator: (value) =>
-                            Validators.warrantyValidator(value),
-                        decoration:
-                            getInputDecoration('in Months (0, if no warranty)'),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Return Period",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextFormField(
-                        onSaved: (value) => returnPeriod = value,
-                        validator: (value) =>
-                            Validators.returnPeriodValidator(value),
-                        decoration: getInputDecoration(
-                            'in Days (0, if no return period)'),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "State",
-                        style: GoogleFonts.inter(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextFormField(
-                        onSaved: (value) => state = value,
-                        validator: (value) =>
-                            Validators.locationValidator(value),
-                        decoration: getInputDecoration('State'),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      // Text(
-                      //   "Box Contents",
-                      //   style: GoogleFonts.inter(
-                      //       fontSize: 18, fontWeight: FontWeight.w600),
-                      // ),
-                      // boxContents.isNotEmpty
-                      //     ? Container(
-                      //         child: ListView.builder(
-                      //           shrinkWrap: true,
-                      //           itemCount: boxContents.length,
-                      //           itemBuilder: (context, index) => TextFormField(
-                      //             decoration:
-                      //                 getInputDecoration("Box Item $index"),
-                      //             onSaved: (value) {
-                      //               if (value != null) {
-                      //                 boxContents[index] = value;
-                      //               }
-                      //             },
-                      //           ),
-                      //         ),
-                      //       )
-                      //     : Row(
-                      //         children: [
-                      //           Expanded(
-                      //             child: TextFormField(
-                      //               decoration:
-                      //                   getInputDecoration("Box Item 1"),
-                      //             ),
-                      //           ),
-                      //           IconButton(
-                      //               onPressed: () {
-                      //                 setState(() {
-                      //                   boxContents.add('');
-                      //                 });
-                      //               },
-                      //               icon: const Icon(Icons.add))
-                      //         ],
-                      //       )
-                    ],
-                  ))
-            ],
           ),
         ),
       ),
