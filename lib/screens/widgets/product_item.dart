@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:inno_hack/core/constants.dart';
+import 'package:inno_hack/data/post_endpoints.dart';
 import 'package:inno_hack/models/catalog.dart';
 import 'package:inno_hack/screens/widgets/SingleProduct.dart';
 
@@ -27,6 +29,7 @@ class _ProductItemState extends State<ProductItem> {
   Widget build(BuildContext context) {
     return Dismissible(
       key: UniqueKey(),
+      onDismissed: (direction) => deletePost(widget.catalog.postId!),
       background: Container(
           margin: const EdgeInsets.symmetric(vertical: 5),
           padding: const EdgeInsets.symmetric(horizontal: 20),
