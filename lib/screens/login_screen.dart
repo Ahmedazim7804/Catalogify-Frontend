@@ -95,21 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  child: Text("Unleash Your Selling Potential!",
-                      style: kNormalTextStyle),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "dsfldfjdslksjdfldsjfsldfjdslkfdldsjfsdlddlf lsdkjf dlsfj dlfjds flfj sfjlfs flf ldsjf dsjf lds fdsljfdlfj ds",
-                      style: GoogleFonts.inter(fontSize: 15),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: ListTile(
