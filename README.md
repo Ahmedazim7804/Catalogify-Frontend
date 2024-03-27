@@ -1,6 +1,6 @@
-# InnoHack Frontend - Flutter App
+# Catalogify Frontend - Flutter App
 
-Welcome to the InnoHack frontend repository for the Flutter app! This repository contains the codebase for the Catalogify mobile app frontend, built using the Flutter framework. Tje app offers a friendly interface, letting you access Catalogify's features easily on your phone. Search, manage tasks, and communicate effortlessly..
+Welcome to the Catalogify frontend repository for the Flutter app! This repository contains the codebase for the Catalogify mobile app frontend, built using the Flutter framework. The app offers a friendly interface, letting you access Catalogify's features easily on your phone. Search, manage tasks, and communicate effortlessly..
 
 ## Project Links
 
