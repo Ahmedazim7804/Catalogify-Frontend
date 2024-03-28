@@ -1,21 +1,21 @@
-# InnoHack Frontend - Flutter App
+# Catalogify Frontend - Flutter App
 
-Welcome to the Catalogify frontend repository for the Flutter app! This repository contains the codebase for the Catalogify mobile app frontend, built using the Flutter framework. Tje app offers a friendly interface, letting you access Catalogify's features easily on your phone. Search, manage tasks, and communicate effortlessly..
+Welcome to the Catalogify frontend repository for the Flutter app! This repository contains the codebase for the Catalogify mobile app frontend, built using the Flutter framework. The app offers a friendly interface, letting you access Catalogify's features easily on your phone. Search, manage tasks, and communicate effortlessly..
 
 ## Project Links
 
 This section contains links to the frontend and backend repositories, as well as the base URL and documentation for the backend API.
 
 ### Frontend Repository
--  Repository URL: [https://github.com/Ahmedazim7804/Catalogify-Frontend](https://github.com/Ahmedazim7804/Catalogify-Frontend)
+- Repository URL: [Frontend Repo - https://github.com/Ahmedazim7804/InnoHack-Frontend](https://github.com/Ahmedazim7804/InnoHack-Frontend)
 
 ### Backend Repository
--  Repository URL:[https://github.com/atishayj2202/Catalogify-Backend](https://github.com/atishayj2202/Catalogify-Backend)
+- Repository URL: [Backend Repo - https://github.com/atishayj2202/InnoHack-Hackathon-Backend](https://github.com/atishayj2202/InnoHack-Hackathon-Backend)
 
 ### Backend API Endpoint Base URL
--  Base URL: https://innohack-hackathon-server.yellowbush-cadc3844.centralindia.azurecontainerapps.io
-### Backend API Endpoint Documentation
+- Base URL: https://innohack-hackathon-server.yellowbush-cadc3844.centralindia.azurecontainerapps.io
 
+### Backend API Endpoint Documentation
 - Documentation URL: https://innohack-hackathon-server.yellowbush-cadc3844.centralindia.azurecontainerapps.io/docs
 
 ## Technologies Used
@@ -55,7 +55,8 @@ The Flutter app can be deployed to the Google Play Store for Android devices and
 
 ## Contributers
 - Ajeem Ahmad
-- Atishaya Jain
+- Atishay Jain
 - Khushal Bhasin
+- Dimple Yadav
 
 
