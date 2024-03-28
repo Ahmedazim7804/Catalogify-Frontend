@@ -57,6 +57,3 @@ The Flutter app can be deployed to the Google Play Store for Android devices and
 - Ajeem Ahmad
 - Atishay Jain
 - Khushal Bhasin
-- Dimple Yadav
-
-
