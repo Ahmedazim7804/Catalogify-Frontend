@@ -18,7 +18,7 @@ class _ProductScreenState extends State<ProductScreen> {
         foregroundColor: Colors.white,
         title: Center(
           child: Text(
-            "InnoHacks",
+            "Catalogify",
             style: GoogleFonts.exo2(),
           ),
         ),

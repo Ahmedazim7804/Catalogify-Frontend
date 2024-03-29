@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.white,
         title: Center(
           child: Text(
-            "InnoHacks",
+            "Catalogify",
             style: GoogleFonts.exo2(),
           ),
         ),
